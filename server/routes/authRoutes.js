@@ -8,13 +8,16 @@ module.exports = (app) => {
 		})
 	);
 
-	app.get('/auth/google/callback', passport.authenticate('google'));
+	app.get('/auth/google/callback', passport.authenticate('google'),(req,res)=>{
+		res.redirect('http://localhost:3000/');
+	});
 	app.post('/signup',Auth.signup);
 	app.post('/signin',passport.authenticate('local'),(req,res)=>{
 		res.send({logged:'in'});
 	});
-	app.get('/logout',(req,res)=>{
+	app.get('/logout',(req,res,next)=>{
 		req.logout();
+		res.redirect('http://localhost:3000/');
 	});
 	app.get('/profile',(req,res)=>{
 		res.send(req.user.id);

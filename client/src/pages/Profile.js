@@ -5,6 +5,7 @@ import * as actions from './../actions';
 
 class Profile extends Component {
 	render() {
+		console.log(this.props.authenticated);
 		return (
 			<div>
 				Profile
@@ -14,7 +15,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return { user: state.auth.user };
+	return { authenticated: state.auth.authenticated };
 }
 
 export default connect(mapStateToProps,actions)(requireAuth(Profile));

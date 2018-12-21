@@ -7,7 +7,10 @@ import * as actions from './../actions';
 class AuthForm extends Component {
 
 	onSubmit = (formProps)=>{
-		const callback = () => { this.props.history.push('/') };
+		const callback = () => { 
+			this.props.fetchUser();
+			this.props.history.push('/'); 
+		};
 		if(this.props.signup) {
 			this.props.signupUser(formProps,callback);
 		} else {
@@ -40,6 +43,7 @@ class AuthForm extends Component {
 					{this.props.errorMessage}
 				</div>
 				<button>{this.props.signup ? "Sign Up" : "Sign In"}</button>
+				<a href="http://localhost:5000/auth/google">Sign in with Google</a>
 			</form>
 		)
 	}
