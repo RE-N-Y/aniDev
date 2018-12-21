@@ -5,10 +5,10 @@ class Header extends Component {
 	render() {
 		return (
 			<div>
-				<Link to="/">Auth</Link>
+				<Link to="/">ANIPIN</Link>
 				<Link to="/signup">Sign Up</Link>
 				<Link to="/signin">Sign In</Link>
-				<Link to="/logout">Logout</Link>
+				<a href="http://localhost:5000/logout">Log Out</a>
 				<Link to="/profile">Profile</Link>
 			</div>
 		);

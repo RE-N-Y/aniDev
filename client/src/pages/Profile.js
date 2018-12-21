@@ -5,7 +5,6 @@ import * as actions from './../actions';
 
 class Profile extends Component {
 	render() {
-		console.log(this.props.authenticated);
 		return (
 			<div>
 				Profile
