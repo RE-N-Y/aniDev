@@ -5,10 +5,17 @@ const { Schema } = mongoose;
 const bcrypt = require('bcrypt-nodejs');
 
 const userSchema = new Schema({
-  username: { type: String, unique: true },
-  email: { type: String, unique: true, lowercase: true },
-  googleId: String,
+  username: { type: String },
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    sparse: true,
+    trim: true,
+  },
+  googleId: { type: String, unique: true, sparse: true },
   password: String,
+  class: String,
 });
 
 userSchema.pre('save', function (next) {
@@ -22,6 +29,7 @@ userSchema.pre('save', function (next) {
         return next(err);
       }
       user.password = hash;
+      user.class = 'member';
       next();
     });
   });
