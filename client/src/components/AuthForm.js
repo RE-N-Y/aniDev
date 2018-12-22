@@ -21,6 +21,11 @@ class AuthForm extends Component {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
+        {this.props.signup ?
+        <fieldset>
+          <label>Username</label>
+          <Field name="username" type="text" component="input" />
+        </fieldset> : null }
         <fieldset>
           <label>Email</label>
           <Field name="email" type="text" component="input" />

@@ -27,7 +27,9 @@ const googleStrategy = new GoogleStrategy(
       if (existingUser) {
         done(null, existingUser);
       } else {
-        new User({ googleId: profile.id }).save().then(user => done(null, user));
+        new User({ username: profile.displayName, googleId: profile.id })
+          .save()
+          .then(user => done(null, user));
       }
     });
   },

@@ -6,7 +6,7 @@ export const signupUser = (formProps, callback) => async (dispatch) => {
     await axios.post('http://localhost:5000/signup', formProps);
     callback();
   } catch (e) {
-    dispatch({ type: AUTH_ERROR, payload: 'Email in use' });
+    dispatch({ type: AUTH_ERROR, payload: 'Sign up error' });
   }
 };
 
