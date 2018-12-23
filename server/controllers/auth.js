@@ -25,7 +25,7 @@ exports.signup = (req, res, next) => {
 
 exports.requireAccess = (roles) => {
   const accessControl = (req, res, next) => {
-    if (!roles.includes(req.user.class)) {
+    if (!roles.includes(req.user.access)) {
       res.status(403).send({ error: 'Access denied' });
     } else {
       next();

@@ -9,7 +9,7 @@ exports.getUsers = (req, res) => {
 };
 
 exports.updateAccessById = (req, res) => {
-  User.findByIdAndUpdate(req.params.id, { $set: { class: req.body.class } }, (err) => {
+  User.findByIdAndUpdate(req.params.id, { $set: { access: req.body.access } }, (err) => {
     res.send('Update successful');
   });
 };

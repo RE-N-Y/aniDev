@@ -15,7 +15,7 @@ const userSchema = new Schema({
   },
   googleId: { type: String, unique: true, sparse: true },
   password: String,
-  class: String,
+  access: String,
 });
 
 userSchema.pre('save', function (next) {
@@ -29,7 +29,7 @@ userSchema.pre('save', function (next) {
         return next(err);
       }
       user.password = hash;
-      user.class = 'member';
+      user.access = 'member';
       next();
     });
   });

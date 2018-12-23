@@ -20,6 +20,7 @@ module.exports = (app) => {
     res.redirect('http://localhost:3000/');
   });
   app.get('/profile', (req, res) => {
-    res.send(req.user.id);
+    const { id, access, username } = req.user;
+    res.send({ id, access, username });
   });
 };
