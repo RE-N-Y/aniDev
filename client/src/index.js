@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import CreatePost from './pages/CreatePost';
+import Post from './pages/Post';
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Route path="/signin" component={Signin} />
         <Route path="/profile" component={Profile} />
         <Route path="/createPost" component={CreatePost} />
+        <Route path="/posts/:id" component={Post} />
       </App>
     </BrowserRouter>
   </Provider>,
