@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
+import { compose } from 'redux';
+import { reduxForm, Field } from 'redux-form';
 import * as actions from '../actions';
 import 'react-quill/dist/quill.snow.css';
 
@@ -9,13 +11,12 @@ class PostForm extends Component {
     this.props.updatePostForm(value);
   };
 
-  handleClick = (event) => {
+  onSubmit = (formProps) => {
     const {
-      requestType, createPost, content, history,
+      requestType, createPost, history, authorName,
     } = this.props;
-    event.preventDefault();
-    const title = 'title';
-    const authorName = 'admin';
+    const { title, content } = formProps;
+
     if (requestType === 'post') {
       createPost({ title, authorName, content }, () => {
         history.push('/');
@@ -24,21 +25,40 @@ class PostForm extends Component {
     }
   };
 
+  renderQuill = ({ input }) => (
+    <ReactQuill
+      {...input}
+      onChange={(newValue, delta, source) => {
+        if (source === 'user') {
+          input.onChange(newValue);
+        }
+      }}
+      onBlur={(range, source, quill) => {
+        input.onBlur(quill.getHTML());
+      }}
+    />
+  );
+
   render() {
+    const { handleSubmit } = this.props;
     return (
-      <div>
-        <ReactQuill value={this.props.content} onChange={this.handleChange} />
-        <button onClick={this.handleClick}>Submit</button>
-      </div>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
+        <Field name="title" type="text" component="input" label="Title" />
+        <Field name="content" component={this.renderQuill} />
+        <button type="submit">Submit</button>
+      </form>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  content: state.post.post_content,
+  authorName: state.auth.authenticated && state.auth.authenticated.username,
 });
 
-export default connect(
-  mapStateToProps,
-  actions,
+export default compose(
+  connect(
+    mapStateToProps,
+    actions,
+  ),
+  reduxForm({ form: 'postForm' }),
 )(PostForm);

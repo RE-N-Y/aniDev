@@ -1,7 +1,5 @@
 import axios from 'axios';
-import {
-  AUTH_USER, AUTH_ERROR, UPDATE_POST_FORM_CONTENT, POST_ERROR,
-} from './types';
+import { AUTH_USER, AUTH_ERROR, POST_ERROR } from './types';
 
 export const signupUser = (formProps, callback) => async (dispatch) => {
   try {
@@ -42,11 +40,11 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: AUTH_USER, payload: false });
 };
 
-export const createPost = (post, callback) => async (dispatch) => {
+export const createPost = (formProps, callback) => async (dispatch) => {
   try {
     await axios('http://localhost:5000/posts/addPost', {
       method: 'post',
-      data: post,
+      data: formProps,
       withCredentials: true,
     });
     callback();
@@ -54,5 +52,3 @@ export const createPost = (post, callback) => async (dispatch) => {
     dispatch({ type: POST_ERROR, payload: 'create post error' });
   }
 };
-
-export const updatePostForm = content => ({ type: UPDATE_POST_FORM_CONTENT, payload: content });

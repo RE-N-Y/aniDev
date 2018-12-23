@@ -1,4 +1,4 @@
-import { UPDATE_POST_FORM_CONTENT, POST_ERROR } from '../actions/types';
+import { POST_ERROR } from '../actions/types';
 
 const INITIAL_STATE = {
   post_content: '',
@@ -7,8 +7,6 @@ const INITIAL_STATE = {
 
 const post = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UPDATE_POST_FORM_CONTENT:
-      return { ...state, post_content: action.payload };
     case POST_ERROR:
       return { ...state, post_error: action.payload };
     default:
