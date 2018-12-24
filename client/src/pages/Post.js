@@ -16,7 +16,6 @@ class Post extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <div dangerouslySetInnerHTML={{ __html: this.state.data.content }} />

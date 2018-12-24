@@ -8,6 +8,7 @@ const cookieSession = require('cookie-session');
 const keys = require('./config/keys');
 require('./models/Users');
 require('./models/Posts');
+require('./models/Animes');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
