@@ -13,7 +13,7 @@ class PostForm extends Component {
 
   onSubmit = (formProps) => {
     const {
-      requestType, createPost, history, authorName,
+      requestType, createPost, history, authorName, updatePost, id,
     } = this.props;
     const { title, content } = formProps;
 
@@ -22,6 +22,9 @@ class PostForm extends Component {
         history.push('/');
       });
     } else if (requestType === 'put') {
+      updatePost({ title, authorName, content }, id, () => {
+        history.push('/');
+      });
     }
   };
 
@@ -60,5 +63,5 @@ export default compose(
     mapStateToProps,
     actions,
   ),
-  reduxForm({ form: 'postForm' }),
+  reduxForm({ form: 'postForm', enableReinitialize: true }),
 )(PostForm);

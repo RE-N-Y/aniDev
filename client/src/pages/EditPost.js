@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import PostForm from '../components/PostForm';
 
-class Post extends Component {
+class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: '',
+      title: '',
+      content: '',
     };
   }
 
   async componentWillMount() {
     const response = await axios.get(`http://localhost:5000/posts/${this.props.match.params.id}`);
-    this.setState({ data: response.data });
+    this.setState({ title: response.data.title, content: response.data.content });
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
-        <div dangerouslySetInnerHTML={{ __html: this.state.data.content }} />
+        <PostForm
+          {...this.props}
+          requestType="put"
+          initialValues={this.state}
+          id={this.props.match.params.id}
+        />
       </div>
     );
   }
@@ -27,4 +33,4 @@ class Post extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps)(Post);
+export default connect(mapStateToProps)(CreatePost);

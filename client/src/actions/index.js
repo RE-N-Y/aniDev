@@ -52,3 +52,16 @@ export const createPost = (formProps, callback) => async (dispatch) => {
     dispatch({ type: POST_ERROR, payload: 'create post error' });
   }
 };
+
+export const updatePost = (formProps, id, callback) => async (dispatch) => {
+  try {
+    await axios(`http://localhost:5000/posts/${id}`, {
+      method: 'put',
+      data: formProps,
+      withCredentials: true,
+    });
+    callback();
+  } catch (e) {
+    dispatch({ type: POST_ERROR, payload: 'update post error' });
+  }
+};
