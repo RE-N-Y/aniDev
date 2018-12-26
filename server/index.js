@@ -9,6 +9,7 @@ const keys = require('./config/keys');
 require('./models/Users');
 require('./models/Posts');
 require('./models/Animes');
+require('./models/Characters');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -30,6 +31,8 @@ app.use(bodyParser.json({ type: '*/*' }));
 require('./routes/authRoutes')(app);
 require('./routes/postRoutes')(app);
 require('./routes/userRoutes')(app);
+require('./routes/characterRoutes')(app);
+require('./routes/animeRoutes')(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

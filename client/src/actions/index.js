@@ -42,7 +42,7 @@ export const logout = () => async (dispatch) => {
 
 export const createPost = (formProps, callback) => async (dispatch) => {
   try {
-    await axios('http://localhost:5000/posts/addPost', {
+    await axios('http://localhost:5000/posts/', {
       method: 'post',
       data: formProps,
       withCredentials: true,

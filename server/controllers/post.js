@@ -5,9 +5,12 @@ const Post = mongoose.model('posts');
 const User = mongoose.model('users');
 
 exports.getPostList = (req, res) => {
-  Post.find({}, { sort: { written: -1 }, limit: 50 }, (err, posts) => {
-    res.send({ posts });
-  });
+  Post.find()
+    .skip((req.params.nPage - 1) * 30)
+    .limit(30)
+    .exec((err, posts) => {
+      res.send(posts);
+    });
 };
 
 exports.addPost = (req, res) => {

@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const animeSchema = new Schema({
   title: String,
   rating: Number,
-  likes: Number,
+  likes: { type: Number, default: 0 },
   mainImage: String,
   thumbNail: String,
   synopsis: String,

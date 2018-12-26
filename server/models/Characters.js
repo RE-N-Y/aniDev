@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const characterSchema = new Schema({
   name: String,
-  likes: Number,
+  likes: { type: Number, default: 0 },
   description: String,
   thumbnail: String,
   relatedCharacters: [{ type: mongoose.Schema.ObjectId, ref: 'characters' }],
