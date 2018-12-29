@@ -6,30 +6,24 @@ const Anime = mongoose.model('animes');
 const Character = mongoose.model('characters');
 const EditorAccess = AuthController.requireAccess(['admin', 'editor']);
 
-const extractParams = (object) => {
-  const relatedAnimesId = [];
-  req.body.relatedAnimes.forEach((title) => {
-    Anime.findOne({ title }, (err, anime) => {
-      relatedAnimesId.push(anime.id);
-    });
+const extractParams = async (object) => {
+  await Anime.find({ title: { $in: object.relatedAnimes } }, (err, animes) => {
+    object.relatedAnimes = animes.map(anime => anime.id);
   });
-  const relatedCharactersId = [];
-  req.body.relatedCharacters.forEach((name) => {
-    Character.findOne({ name }, (err, character) => {
-      relatedCharactersId.push(character.id);
-    });
+  await Character.find({ name: { $in: object.relatedCharacters } }, (err, characters) => {
+    object.relatedCharacters = characters.map(character => character.id);
   });
-  return { ...object, relatedAnimes: relatedAnimesId, relatedCharacters: relatedCharactersId };
+  return object;
 };
 
 module.exports = (app) => {
   app.get('/animes/pages/:nPage', EditorAccess, CommonController.getList('animes'));
   app.post('/animes', EditorAccess, (req, res) => {
-    Anime.findOne({ title: req.body.title }, (err, anime) => {
+    Anime.findOne({ title: req.body.title }, async (err, anime) => {
       if (anime) {
         res.send({ error: 'anime already exists' });
       }
-      new Anime(extractParams(req.body)).save();
+      new Anime(await extractParams(req.body)).save();
       res.send('Anime successfully registered');
     });
   });
@@ -37,8 +31,8 @@ module.exports = (app) => {
   app.put(
     '/animes/:id',
     EditorAccess,
-    (req, res, next) => {
-      req.body = extractParams(req.body);
+    async (req, res, next) => {
+      req.body = await extractParams(req.body);
       next();
     },
     CommonController.updateById('animes'),

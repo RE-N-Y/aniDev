@@ -14,7 +14,7 @@ const extractParam = (object) => {
 module.exports = (app) => {
   app.get('/posts/pages/:nPage', EditorAccess, CommonController.getList('posts'));
   app.post('/posts/', EditorAccess, (req, res) => {
-    new Post(extractParam(req.body));
+    new Post(extractParam(req.body)).save();
     res.send('Successfully posted');
   });
   app.get('/posts/:id', CommonController.getById('posts'));
