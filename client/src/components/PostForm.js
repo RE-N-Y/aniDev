@@ -13,16 +13,16 @@ class PostForm extends Component {
 
   onSubmit = (formProps) => {
     const {
-      requestType, createPost, history, authorName, updatePost, id,
+      requestType, createPost, history, username, updatePost, id,
     } = this.props;
     const { title, content } = formProps;
 
     if (requestType === 'post') {
-      createPost({ title, authorName, content }, () => {
+      createPost({ title, username, content }, () => {
         history.push('/');
       });
     } else if (requestType === 'put') {
-      updatePost({ title, authorName, content }, id, () => {
+      updatePost({ title, username, content }, id, () => {
         history.push('/');
       });
     }
@@ -55,7 +55,7 @@ class PostForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  authorName: state.auth.authenticated && state.auth.authenticated.username,
+  username: state.auth.authenticated && state.auth.authenticated.username,
 });
 
 export default compose(

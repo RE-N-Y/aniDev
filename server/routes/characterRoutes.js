@@ -7,12 +7,10 @@ const Character = mongoose.model('characters');
 const EditorAccess = AuthController.requireAccess(['admin', 'editor']);
 
 const extractParams = async (object) => {
-  await Anime.find({ title: { $in: object.relatedAnimes } }, (err, animes) => {
-    object.relatedAnimes = animes.map(anime => anime.id);
-  });
-  await Character.find({ name: { $in: object.relatedCharacters } }, (err, characters) => {
-    object.relatedCharacters = characters.map(character => character.id);
-  });
+  const animes = await Anime.find({ title: { $in: object.relatedAnimes } });
+  object.relatedAnimes = animes.map(anime => anime.id);
+  const characters = await Character.find({ name: { $in: object.relatedCharacters } });
+  object.relatedCharacters = characters.map(character => character.id);
   return object;
 };
 
@@ -23,7 +21,7 @@ module.exports = (app) => {
       if (character) {
         res.send({ error: 'character already exists' });
       }
-      new Character(await extractParams(req.body)).save();
+      await new Character(await extractParams(req.body)).save();
       res.send('Character successfully registed');
     });
   });

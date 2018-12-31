@@ -54,7 +54,7 @@ exports.updateById = (model) => {
   return middleware;
 };
 
-exports.deleteById = () => {
+exports.deleteById = (model) => {
   const middleware = (req, res) => {
     const DB = chooseModel(model);
     DB.findByIdAndDelete(req.params.id, (err) => {
