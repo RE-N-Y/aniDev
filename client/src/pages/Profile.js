@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import requireAuth from '../components/requireAuth';
-import * as actions from '../actions';
+import requireAuth from '../components/extensions/requireAuth';
 
 class Profile extends Component {
   render() {
@@ -9,9 +7,4 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => ({ authenticated: state.auth.authenticated });
-
-export default connect(
-  mapStateToProps,
-  actions,
-)(requireAuth(Profile));
+export default requireAuth(Profile);

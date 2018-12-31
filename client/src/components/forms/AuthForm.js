@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 class AuthForm extends Component {
   onSubmit = (formProps) => {
@@ -21,11 +21,12 @@ class AuthForm extends Component {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        {this.props.signup ?
-        <fieldset>
-          <label>Username</label>
-          <Field name="username" type="text" component="input" />
-        </fieldset> : null }
+        {this.props.signup ? (
+          <fieldset>
+            <label>Username</label>
+            <Field name="username" type="text" component="input" />
+          </fieldset>
+        ) : null}
         <fieldset>
           <label>Email</label>
           <Field name="email" type="text" component="input" />

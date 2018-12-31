@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import PostForm from '../components/PostForm';
+import PostForm from '../components/forms/PostForm';
 
 class CreatePost extends Component {
   constructor(props) {
