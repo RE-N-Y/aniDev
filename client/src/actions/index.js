@@ -40,28 +40,28 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: AUTH_USER, payload: false });
 };
 
-export const createPost = (formProps, callback) => async (dispatch) => {
+export const createRequest = (formProps, type, callback) => async (dispatch) => {
   try {
-    await axios('http://localhost:5000/posts/', {
+    await axios(`http://localhost:5000/${type}/`, {
       method: 'post',
       data: formProps,
       withCredentials: true,
     });
     callback();
   } catch (e) {
-    dispatch({ type: POST_ERROR, payload: 'create post error' });
+    dispatch({ type: POST_ERROR, payload: 'create error' });
   }
 };
 
-export const updatePost = (formProps, id, callback) => async (dispatch) => {
+export const updateRequest = (formProps, type, id, callback) => async (dispatch) => {
   try {
-    await axios(`http://localhost:5000/posts/${id}`, {
+    await axios(`http://localhost:5000/${type}/${id}`, {
       method: 'put',
       data: formProps,
       withCredentials: true,
     });
     callback();
   } catch (e) {
-    dispatch({ type: POST_ERROR, payload: 'update post error' });
+    dispatch({ type: POST_ERROR, payload: 'update error' });
   }
 };

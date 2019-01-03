@@ -26,7 +26,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(morgan('combined'));
-app.use(bodyParser.json({ type: '*/*' }));
+app.use(bodyParser.json({ type: '*/*', limit: '50mb' }));
 
 require('./routes/authRoutes')(app);
 require('./routes/postRoutes')(app);

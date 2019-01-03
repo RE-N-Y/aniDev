@@ -3,33 +3,28 @@ import { Field } from 'redux-form';
 import form from '../extensions/form';
 
 class PostForm extends Component {
-  handleChange = (value) => {
-    this.props.updatePostForm(value);
-  };
-
   onSubmit = (formProps) => {
     const {
-      requestType, createPost, history, username, updatePost, id,
+      requestType, createRequest, history, updateRequest, id,
     } = this.props;
-    const { title, content } = formProps;
 
     if (requestType === 'post') {
-      createPost({ title, username, content }, () => {
+      createRequest(formProps, 'posts', () => {
         history.push('/');
       });
     } else if (requestType === 'put') {
-      updatePost({ title, username, content }, id, () => {
+      updateRequest(formProps, 'posts', id, () => {
         history.push('/');
       });
     }
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, renderQuill } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field name="title" type="text" component="input" label="Title" />
-        <Field name="content" component={this.props.renderQuill} />
+        <Field name="content" component={renderQuill} />
         <button type="submit">Submit</button>
       </form>
     );
