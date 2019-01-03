@@ -13,6 +13,7 @@ import CreatePost from './pages/CreatePost';
 import Post from './pages/Post';
 import EditPost from './pages/EditPost';
 import CreateCharacter from './pages/CreateCharacter';
+import EditCharacter from './pages/EditCharacter';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(reduxThunk)));
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route path="/posts/:id" exact component={Post} />
         <Route path="/posts/:id/edit" exact component={EditPost} />
         <Route path="/createCharacter" component={CreateCharacter} />
+        <Route path="/characters/:id/edit" exact component={EditCharacter}/>
       </App>
     </BrowserRouter>
   </Provider>,

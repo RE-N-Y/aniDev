@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const characterSchema = new Schema({
-  name: String,
+  name: { type: String, unique: true },
   likes: { type: Number, default: 0 },
   description: String,
   thumbnail: Buffer,

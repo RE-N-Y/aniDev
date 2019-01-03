@@ -44,6 +44,19 @@ exports.getById = (model) => {
   return middleware;
 };
 
+exports.getFullDocById = (model, fields) => {
+  const middleware = (req, res) => {
+    const DB = chooseModel(model);
+    DB.findById(req.params.id)
+      .populate({ path: 'relatedAnimes', select: fields })
+      .populate({ path: 'relatedCharacters', select: fields })
+      .exec((err, item) => {
+        res.send(item);
+      });
+  };
+  return middleware;
+};
+
 exports.updateById = (model) => {
   const middleware = (req, res) => {
     const DB = chooseModel(model);

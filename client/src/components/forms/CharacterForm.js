@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
+import { Field, FieldArray, getFormValues } from 'redux-form';
+import { connect } from 'react-redux';
 import form from '../extensions/form';
 
 class CharacterForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      thumbnail: null,
-    };
-  }
-
   onSubmit = (formProps) => {
     const {
       history, requestType, id, createRequest, updateRequest,
@@ -20,8 +14,7 @@ class CharacterForm extends Component {
     const relatedCharacters = formProps.relatedCharacters
       ? formProps.relatedCharacters.map(obj => obj.content)
       : null;
-    const thumbnail = new Buffer(formProps.thumbnail, 'base64');
-    console.log(thumbnail);
+    const thumbnail = Buffer.from(formProps.thumbnail.split(',')[1], 'base64');
     if (requestType === 'post') {
       createRequest(
         {
@@ -54,20 +47,15 @@ class CharacterForm extends Component {
 
   render() {
     const {
-      handleSubmit, renderQuill, renderFileInput, renderList,
+      handleSubmit, renderQuill, renderFileInput, renderList, formValues,
     } = this.props;
+
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field name="name" type="text" component="input" />
         <Field name="description" component={renderQuill} />
-        <Field
-          name="thumbnail"
-          component={renderFileInput}
-          onChange={(e, newValue, previousValue) => {
-            this.setState({ thumbnail: newValue });
-          }}
-        />
-        <img alt="thumbnail preview" src={this.state.thumbnail} />
+        <Field name="thumbnail" component={renderFileInput} />
+        <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
         <FieldArray name="relatedAnimes" component={renderList} />
         <FieldArray name="relatedCharacters" component={renderList} />
         <button type="submit">Submit</button>
@@ -76,4 +64,6 @@ class CharacterForm extends Component {
   }
 }
 
-export default form(CharacterForm, 'characterForm');
+const mapStateToProps = state => ({ formValues: getFormValues('characterForm')(state) });
+
+export default connect(mapStateToProps)(form(CharacterForm, 'characterForm'));

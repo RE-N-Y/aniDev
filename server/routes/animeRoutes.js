@@ -25,7 +25,7 @@ module.exports = (app) => {
       res.send('Anime successfully registered');
     });
   });
-  app.get('/animes/:id', CommonController.getById('animes'));
+  app.get('/animes/:id', CommonController.getFullDocById('animes', ['name', 'title']));
   app.put(
     '/animes/:id',
     EditorAccess,

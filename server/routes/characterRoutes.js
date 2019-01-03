@@ -19,13 +19,13 @@ module.exports = (app) => {
   app.post('/characters', EditorAccess, (req, res) => {
     Character.findOne({ name: req.body.name }, async (err, character) => {
       if (character) {
-        res.send({ error: 'character already exists' });
+        res.status(400).send({ error: 'character already exists' });
       }
       await new Character(await extractParams(req.body)).save();
       res.send('Character successfully registed');
     });
   });
-  app.get('/characters/:id', CommonController.getById('characters'));
+  app.get('/characters/:id', CommonController.getFullDocById('characters', ['name', 'title']));
   app.put(
     '/characters/:id',
     EditorAccess,
