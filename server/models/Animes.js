@@ -7,7 +7,7 @@ const animeSchema = new Schema({
   rating: Number,
   likes: { type: Number, default: 0 },
   mainImage: Buffer,
-  thumbNail: Buffer,
+  thumbnail: Buffer,
   synopsis: String,
   review: String,
   startedAiring: Date,

@@ -6,15 +6,17 @@ import form from '../extensions/form';
 class CharacterForm extends Component {
   onSubmit = (formProps) => {
     const {
-      history, requestType, id, createRequest, updateRequest,
+      history,
+      requestType,
+      id,
+      createRequest,
+      updateRequest,
+      extractToList,
+      bufferToBase64,
     } = this.props;
-    const relatedAnimes = formProps.relatedAnimes
-      ? formProps.relatedAnimes.map(obj => obj.content)
-      : null;
-    const relatedCharacters = formProps.relatedCharacters
-      ? formProps.relatedCharacters.map(obj => obj.content)
-      : null;
-    const thumbnail = Buffer.from(formProps.thumbnail.split(',')[1], 'base64');
+    const relatedAnimes = extractToList(formProps.relatedAnimes);
+    const relatedCharacters = extractToList(formProps.relatedCharacters);
+    const thumbnail = bufferToBase64(formProps.thumbnail);
     if (requestType === 'post') {
       createRequest(
         {

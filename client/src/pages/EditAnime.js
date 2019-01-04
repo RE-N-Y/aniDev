@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import CharacterForm from '../components/forms/CharacterForm';
+import AnimeForm from '../components/forms/AnimeForm';
 
-class EditCharacter extends Component {
+class EditAnime extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,14 +18,22 @@ class EditCharacter extends Component {
   async componentWillMount() {
     const {
       data: {
-        thumbnail, relatedAnimes, relatedCharacters, ...props
+        mainImage,
+        thumbnail,
+        relatedAnimes,
+        relatedCharacters,
+        startedAiring,
+        finishedAiring,
+        ...props
       },
-    } = await axios.get(`http://localhost:5000/characters/${this.props.match.params.id}`);
+    } = await axios.get(`http://localhost:5000/animes/${this.props.match.params.id}`);
 
     this.setState({
       ...props,
-
+      mainImage: `data:image/jpg;base64,${Buffer.from(mainImage).toString('base64')}`,
       thumbnail: `data:image/jpg;base64,${Buffer.from(thumbnail).toString('base64')}`,
+      startedAiring: new Date(startedAiring).toISOString().split('T')[0],
+      finishedAiring: new Date(startedAiring).toISOString().split('T')[0],
       relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
       relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
     });
@@ -34,7 +42,7 @@ class EditCharacter extends Component {
   render() {
     return (
       <div>
-        <CharacterForm
+        <AnimeForm
           {...this.props}
           requestType="put"
           initialValues={this.state}
@@ -47,4 +55,4 @@ class EditCharacter extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps)(EditCharacter);
+export default connect(mapStateToProps)(EditAnime);

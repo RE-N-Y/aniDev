@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../actions';
 import 'react-quill/dist/quill.snow.css';
+import TextField from '@material-ui/core/TextField';
 
 export default (ChildComponent, formName) => {
   class ComposedComponent extends Component {
@@ -58,6 +59,16 @@ export default (ChildComponent, formName) => {
       />
     );
 
+    renderDatePicker = ({ input, label, meta: { touched, error } }) => (
+      <TextField
+        hintText={label}
+        floatingLabelText={label}
+        errorText={touched && error}
+        type="date"
+        {...input}
+      />
+    );
+
     imageToBase64 = file => new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -67,12 +78,19 @@ export default (ChildComponent, formName) => {
       reader.readAsDataURL(file);
     });
 
+    bufferToBase64 = buffer => Buffer.from(buffer.split(',')[1], 'base64');
+
+    extractToList = objectList => (objectList ? objectList.map(obj => obj.content) : null);
+
     render() {
       return (
         <ChildComponent
           renderQuill={this.renderQuill}
           renderFileInput={this.renderFileInput}
           renderList={this.renderList}
+          renderDatePicker={this.renderDatePicker}
+          bufferToBase64={this.bufferToBase64}
+          extractToList={this.extractToList}
           {...this.props}
         />
       );
