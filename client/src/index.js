@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import Form from './pages/Form';
 import Post from './pages/Post';
+import DashBoard from './pages/DashBoard';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(reduxThunk)));
@@ -29,6 +30,7 @@ ReactDOM.render(
         <Route path="/characters/:id/edit" exact component={Form('characterForm', 'put')} />
         <Route path="/createAnime" component={Form('animeForm', 'post')} />
         <Route path="/animes/:id/edit" exact component={Form('animeForm', 'put')} />
+        <Route path="/admin" exact component={DashBoard} />
       </App>
     </BrowserRouter>
   </Provider>,

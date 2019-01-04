@@ -66,7 +66,7 @@ class AnimeForm extends Component {
         <Field name="title" type="text" component="input" placeholder="title" />
         <Field name="rating" type="number" step="0.01" component="input" placeholder="ratings" />
         <Field name="mainImage" component={renderFileInput} placeholder="main image" />
-        <img alt="main image preview" src={formValues ? formValues.mainImage : null} />
+        <img alt="main preview" src={formValues ? formValues.mainImage : null} />
         <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
         <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
         <Field name="synopsis" component="textarea" placeholder="synopsis" />

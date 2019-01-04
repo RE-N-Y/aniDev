@@ -7,4 +7,4 @@ class Profile extends Component {
   }
 }
 
-export default requireAuth(Profile);
+export default requireAuth(Profile,['admin','editor','member']);
