@@ -1,0 +1,30 @@
+import React from 'react';
+import AnimeForm from '../components/forms/AnimeForm';
+import CharacterForm from '../components/forms/CharacterForm';
+import PostForm from '../components/forms/PostForm';
+
+const Form = (model, type) => (props) => {
+  if (model === 'animeForm') {
+    return (
+      <div>
+        <AnimeForm {...props} requestType={type} />
+      </div>
+    );
+  }
+  if (model === 'postForm') {
+    return (
+      <div>
+        <PostForm {...props} requestType={type} />
+      </div>
+    );
+  }
+  if (model === 'characterForm') {
+    return (
+      <div>
+        <CharacterForm {...props} requestType={type} />
+      </div>
+    );
+  }
+};
+
+export default Form;
