@@ -9,8 +9,19 @@ class ViewItem extends Component {
     };
   }
 
+  getItemName(type) {
+    if (type === 'characters') {
+      return 'name';
+    }
+    if (type === 'users') {
+      return 'username';
+    }
+    return 'title';
+  }
+
   async componentWillMount() {
-    const { data } = await axios('http://localhost:5000/posts/pages/1', {
+    const { type, nPage } = this.props.match.params;
+    const { data } = await axios(`http://localhost:5000/${type}/pages/${nPage}`, {
       method: 'get',
       withCredentials: true,
     });
@@ -18,10 +29,11 @@ class ViewItem extends Component {
   }
 
   render() {
+    const { type } = this.props.match.params;
     return (
       <ul>
         {this.state.items.map(item => (
-          <li key={item._id}>{item.title}</li>
+          <li key={item._id}>{item[this.getItemName(type)]}</li>
         ))}
       </ul>
     );
