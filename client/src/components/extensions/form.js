@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import * as actions from '../../actions';
 import 'react-quill/dist/quill.snow.css';
 import TextField from '@material-ui/core/TextField';
+import * as actions from '../../actions';
 import { errorImage } from '../../resources/errorImage';
 
 export default (ChildComponent, formName) => {
@@ -60,10 +60,14 @@ export default (ChildComponent, formName) => {
       />
     );
 
-    renderDatePicker = ({ input }) => (
+    renderDatePicker = ({ input }) => <TextField type="date" {...input} />;
+
+    renderDropDown = ({ input, children }) => (
       <TextField
-        type="date"
+        select
         {...input}
+        children={children}
+        onChange={(event, index, value) => input.onChange(value)}
       />
     );
 
@@ -80,9 +84,9 @@ export default (ChildComponent, formName) => {
 
     extractToList = objectList => (objectList ? objectList.map(obj => obj.content) : null);
 
-    bufferToImage = buffer =>{
+    bufferToImage = (buffer) => {
       try {
-        return `data:image/jpg;base64,${Buffer.from(buffer).toString('base64')}` 
+        return `data:image/jpg;base64,${Buffer.from(buffer).toString('base64')}`;
       } catch (error) {
         console.log('image error');
         return errorImage;
@@ -99,6 +103,7 @@ export default (ChildComponent, formName) => {
           bufferToBase64={this.bufferToBase64}
           extractToList={this.extractToList}
           bufferToImage={this.bufferToImage}
+          renderDropDown={this.renderDropDown}
           {...this.props}
         />
       );

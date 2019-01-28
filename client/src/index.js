@@ -33,6 +33,7 @@ ReactDOM.render(
         <Route path="/animes/:id/edit" exact component={Form('animeForm', 'put')} />
         <Route path="/admin" exact component={DashBoard} />
         <Route path="/admin/:type/pages/:nPage" exact component={ViewItem} />
+        <Route path="/users/:id/edit" component={Form('userForm', 'put')} />
       </App>
     </BrowserRouter>
   </Provider>,

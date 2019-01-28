@@ -68,10 +68,7 @@ export const updateRequest = (formProps, type, id, callback) => async (dispatch)
   }
 };
 
-export const initFormValues = (data) => {
-  console.log('invoked');
-  return {
-    type: INIT_FORM,
-    payload: data,
-  };
-};
+export const initFormValues = data => ({
+  type: INIT_FORM,
+  payload: data,
+});
