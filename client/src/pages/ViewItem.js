@@ -29,11 +29,23 @@ class ViewItem extends Component {
   }
 
   render() {
-    const { type } = this.props.match.params;
+    const {
+      match: {
+        params: { type },
+      },
+      history,
+    } = this.props;
     return (
       <ul>
         {this.state.items.map(item => (
-          <li key={item._id}>{item[this.getItemName(type)]}</li>
+          <div
+            key={item._id}
+            onClick={() => {
+              history.push(`/${type}/${item._id}/edit`);
+            }}
+          >
+            <li>{item[this.getItemName(type)]}</li>
+          </div>
         ))}
       </ul>
     );

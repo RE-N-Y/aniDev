@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
+import axios from 'axios';
+import { connect } from 'react-redux';
 import form from '../extensions/form';
+import * as actions from '../../actions';
 
 class PostForm extends Component {
+  async componentWillMount() {
+    if (this.props.requestType === 'put') {
+      const response = await axios.get(`http://localhost:5000/posts/${this.props.match.params.id}`);
+      this.props.initFormValues({ title: response.data.title, content: response.data.content });
+    }
+  }
+
   onSubmit = (formProps) => {
     const {
-      requestType, createRequest, history, updateRequest, id,
+      requestType,
+      createRequest,
+      history,
+      updateRequest,
+      match: {
+        params: { id },
+      },
     } = this.props;
 
     if (requestType === 'post') {
@@ -31,4 +47,11 @@ class PostForm extends Component {
   }
 }
 
-export default form(PostForm, 'postForm');
+const mapStateToProps = state => ({
+  initialValues: state.post.formInitValues,
+});
+
+export default connect(
+  mapStateToProps,
+  actions,
+)(form(PostForm, 'postForm'));

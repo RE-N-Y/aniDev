@@ -1,14 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, getFormValues } from 'redux-form';
+import axios from 'axios';
 import form from '../extensions/form';
+import * as actions from '../../actions';
 
 class AnimeForm extends Component {
+  async componentWillMount() {
+    if (this.props.requestType === 'put') {
+      const {
+        data: {
+          mainImage,
+          thumbnail,
+          relatedAnimes,
+          relatedCharacters,
+          startedAiring,
+          finishedAiring,
+          ...props
+        },
+      } = await axios.get(`http://localhost:5000/animes/${this.props.match.params.id}`);
+      this.props.initFormValues({
+        ...props,
+        mainImage: this.props.bufferToImage(mainImage),
+        thumbnail: this.props.bufferToImage(thumbnail),
+        startedAiring: new Date(startedAiring).toISOString().split('T')[0],
+        finishedAiring: new Date(startedAiring).toISOString().split('T')[0],
+        relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
+        relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
+      });
+    }
+  }
+
   onSubmit = (formProps) => {
     const {
       history,
       requestType,
-      id,
+      match:{params:{id}},
       createRequest,
       updateRequest,
       bufferToBase64,
@@ -81,6 +108,12 @@ class AnimeForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({ formValues: getFormValues('animeForm')(state) });
+const mapStateToProps = state => ({
+  initialValues: state.post.formInitValues,
+  formValues: getFormValues('animeForm')(state),
+});
 
-export default connect(mapStateToProps)(form(AnimeForm, 'animeForm'));
+export default connect(
+  mapStateToProps,
+  actions,
+)(form(AnimeForm, 'animeForm'));

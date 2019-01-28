@@ -1,14 +1,35 @@
 import React, { Component } from 'react';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import form from '../extensions/form';
+import * as actions from '../../actions';
 
 class CharacterForm extends Component {
+  async componentWillMount() {
+    if (this.props.requestType === 'put') {
+      const {
+        data: {
+          thumbnail, relatedAnimes, relatedCharacters, ...props
+        },
+      } = await axios.get(`http://localhost:5000/characters/${this.props.match.params.id}`);
+
+      this.props.initFormValues({
+        ...props,
+        thumbnail: this.props.bufferToImage(thumbnail),
+        relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
+        relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
+      });
+    }
+  }
+
   onSubmit = (formProps) => {
     const {
       history,
       requestType,
-      id,
+      match: {
+        params: { id },
+      },
       createRequest,
       updateRequest,
       extractToList,
@@ -66,6 +87,12 @@ class CharacterForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({ formValues: getFormValues('characterForm')(state) });
+const mapStateToProps = state => ({
+  initialValues: state.post.formInitValues,
+  formValues: getFormValues('characterForm')(state),
+});
 
-export default connect(mapStateToProps)(form(CharacterForm, 'characterForm'));
+export default connect(
+  mapStateToProps,
+  actions,
+)(form(CharacterForm, 'characterForm'));

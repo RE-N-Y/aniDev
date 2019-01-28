@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { AUTH_USER, AUTH_ERROR, POST_ERROR } from './types';
+import {
+  AUTH_USER, AUTH_ERROR, POST_ERROR, INIT_FORM,
+} from './types';
 
 export const signupUser = (formProps, callback) => async (dispatch) => {
   try {
@@ -64,4 +66,12 @@ export const updateRequest = (formProps, type, id, callback) => async (dispatch)
   } catch (e) {
     dispatch({ type: POST_ERROR, payload: 'update error' });
   }
+};
+
+export const initFormValues = (data) => {
+  console.log('invoked');
+  return {
+    type: INIT_FORM,
+    payload: data,
+  };
 };

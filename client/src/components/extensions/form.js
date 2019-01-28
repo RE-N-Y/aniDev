@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../actions';
 import 'react-quill/dist/quill.snow.css';
 import TextField from '@material-ui/core/TextField';
+import { errorImage } from '../../resources/errorImage';
 
 export default (ChildComponent, formName) => {
   class ComposedComponent extends Component {
@@ -59,11 +60,8 @@ export default (ChildComponent, formName) => {
       />
     );
 
-    renderDatePicker = ({ input, label, meta: { touched, error } }) => (
+    renderDatePicker = ({ input }) => (
       <TextField
-        hintText={label}
-        floatingLabelText={label}
-        errorText={touched && error}
         type="date"
         {...input}
       />
@@ -82,6 +80,15 @@ export default (ChildComponent, formName) => {
 
     extractToList = objectList => (objectList ? objectList.map(obj => obj.content) : null);
 
+    bufferToImage = buffer =>{
+      try {
+        return `data:image/jpg;base64,${Buffer.from(buffer).toString('base64')}` 
+      } catch (error) {
+        console.log('image error');
+        return errorImage;
+      }
+    };
+
     render() {
       return (
         <ChildComponent
@@ -91,6 +98,7 @@ export default (ChildComponent, formName) => {
           renderDatePicker={this.renderDatePicker}
           bufferToBase64={this.bufferToBase64}
           extractToList={this.extractToList}
+          bufferToImage={this.bufferToImage}
           {...this.props}
         />
       );
