@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import form from '../extensions/form';
 import * as actions from '../../actions';
+import { bufferToImage } from './../extensions/Util';
 
 class CharacterForm extends Component {
   async componentWillMount() {
@@ -16,7 +17,7 @@ class CharacterForm extends Component {
 
       this.props.initFormValues({
         ...props,
-        thumbnail: this.props.bufferToImage(thumbnail),
+        thumbnail: bufferToImage(thumbnail),
         relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
         relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
       });

@@ -4,6 +4,7 @@ import { Field, FieldArray, getFormValues } from 'redux-form';
 import axios from 'axios';
 import form from '../extensions/form';
 import * as actions from '../../actions';
+import { bufferToImage } from './../extensions/Util'; 
 
 class AnimeForm extends Component {
   async componentWillMount() {
@@ -21,8 +22,8 @@ class AnimeForm extends Component {
       } = await axios.get(`http://localhost:5000/animes/${this.props.match.params.id}`);
       this.props.initFormValues({
         ...props,
-        mainImage: this.props.bufferToImage(mainImage),
-        thumbnail: this.props.bufferToImage(thumbnail),
+        mainImage: bufferToImage(mainImage),
+        thumbnail: bufferToImage(thumbnail),
         startedAiring: new Date(startedAiring).toISOString().split('T')[0],
         finishedAiring: new Date(startedAiring).toISOString().split('T')[0],
         relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
