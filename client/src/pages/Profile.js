@@ -3,8 +3,12 @@ import requireAuth from '../components/extensions/requireAuth';
 
 class Profile extends Component {
   render() {
-    return <div>Profile</div>;
+    return (
+      <div>
+        <div>Profile</div>
+      </div>
+    );
   }
 }
 
-export default requireAuth(Profile,['admin','editor','member']);
+export default requireAuth(Profile, ['admin', 'editor', 'member']);

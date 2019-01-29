@@ -62,14 +62,7 @@ export default (ChildComponent, formName) => {
 
     renderDatePicker = ({ input }) => <TextField type="date" {...input} />;
 
-    renderDropDown = ({ input, children }) => (
-      <TextField
-        select
-        {...input}
-        children={children}
-        onChange={(event, index, value) => input.onChange(value)}
-      />
-    );
+    renderDropDown = ({ input, children }) => <TextField select {...input} children={children} />;
 
     imageToBase64 = file => new Promise((resolve, reject) => {
       const reader = new FileReader();

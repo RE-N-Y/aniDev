@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
 import form from '../extensions/form';
 import * as actions from '../../actions';
+import requireAuth from '../extensions/requireAuth';
 
 class UserForm extends Component {
   async componentWillMount() {
@@ -26,7 +27,7 @@ class UserForm extends Component {
     } = this.props;
 
     if (requestType === 'put') {
-      updateRequest(formProps, 'posts', id, () => {
+      updateRequest(formProps, 'users', id, () => {
         history.push('/');
       });
     }
@@ -52,7 +53,9 @@ const mapStateToProps = state => ({
   initialValues: state.post.formInitValues,
 });
 
+const WrappedUserForm = form(UserForm, 'userForm');
+
 export default connect(
   mapStateToProps,
   actions,
-)(form(UserForm, 'userForm'));
+)(requireAuth(WrappedUserForm, ['admin', 'editor']));
