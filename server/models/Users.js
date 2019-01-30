@@ -16,6 +16,8 @@ const userSchema = new Schema({
   googleId: { type: String, unique: true, sparse: true },
   password: String,
   access: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 userSchema.pre('save', function (next) {

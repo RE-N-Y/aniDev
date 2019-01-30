@@ -27,7 +27,11 @@ const googleStrategy = new GoogleStrategy(
       if (existingUser) {
         done(null, existingUser);
       } else {
-        new User({ username: profile.displayName, googleId: profile.id })
+        new User({
+          username: profile.displayName,
+          googleId: profile.id,
+          email: profile.emails[0].value,
+        })
           .save()
           .then(user => done(null, user));
       }
