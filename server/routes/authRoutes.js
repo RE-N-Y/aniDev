@@ -30,29 +30,32 @@ module.exports = (app) => {
     res.send({ id, access, username });
   });
 
-  // work in progress
   app.post('/forgot', (req, res, next) => {
-    const generateToken = new Promise((resolve, reject) => {
+    const generateToken = () => new Promise((resolve, reject) => {
       crypto.randomBytes(20, (err, buf) => {
+        if (err) {
+          reject(err);
+        }
         const token = buf.toString('hex');
         resolve(token);
       });
     });
-    const findUser = new Promise((resolve, reject) => {
+    const findUser = token => new Promise((resolve, reject) => {
       User.findOneAndUpdate(
         { email: req.body.email },
         { $set: { resetPasswordToken: token, resetPasswordExpires: Date.now() + 3600000 } },
         { new: true },
         (err, user) => {
           if (err) {
-            res.redirect('http://localhost:3000/');
+            reject(err);
+            res.send('Error finding user');
           }
-          resolve(user, token);
+          resolve({ user, token });
         },
       );
     });
-    const sendMail = new Promise((resolve, reject) => {
-      const mailer = nodemailer.createTransport('SMTP', {
+    const sendMail = ({ user, token }) => new Promise((resolve, reject) => {
+      const mailer = nodemailer.createTransport({
         service: 'SendGrid',
         auth: {
           user: keys.mailingId,
@@ -63,14 +66,34 @@ module.exports = (app) => {
         to: user.email,
         from: 'passwordreset@anipin.ai',
         subject: 'Password Reset',
-        text: `http://${req.headers.host}/reset/token`,
+        text: `http://${req.headers.host}/reset/${token}`,
       };
       mailer.sendMail(options, (err) => {
         if (err) {
           reject(err);
         }
         resolve();
+        res.send('Successfully sent mail to user');
       });
     });
+    generateToken()
+      .then(token => findUser(token))
+      .then((user, token) => sendMail(user, token));
+  });
+
+  app.post('/reset/:token', (req, res) => {
+    User.findOne(
+      { resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } },
+      (err, user) => {
+        if (!user) {
+          res.send('No user found');
+        }
+        user.password = req.body.password;
+        user.resetPasswordExpires = undefined;
+        user.resetPasswordToken = undefined;
+        user.save();
+        res.send('Successfully updated user password');
+      },
+    );
   });
 };
