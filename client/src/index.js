@@ -15,6 +15,8 @@ import DashBoard from './pages/DashBoard';
 import ViewItem from './pages/ViewItem';
 import Anime from './pages/Anime';
 import Character from './pages/Character';
+import Forgot from './pages/Forgot';
+import Reset from './pages/Reset';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(reduxThunk)));
@@ -38,6 +40,8 @@ ReactDOM.render(
         <Route path="/admin" exact component={DashBoard} />
         <Route path="/admin/:type/pages/:nPage" exact component={ViewItem} />
         <Route path="/users/:id/edit" component={Form('userForm', 'put')} />
+        <Route path="/forgot" exact component={Forgot} />
+        <Route path="/forgot/:token" exact component={Reset} />
       </App>
     </BrowserRouter>
   </Provider>,

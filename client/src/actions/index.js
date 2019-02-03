@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  AUTH_USER, AUTH_ERROR, POST_ERROR, INIT_FORM,
+  AUTH_USER, AUTH_ERROR, POST_ERROR, INIT_FORM, RESET_ERROR,
 } from './types';
 
 export const signupUser = (formProps, callback) => async (dispatch) => {
@@ -72,3 +72,29 @@ export const initFormValues = data => ({
   type: INIT_FORM,
   payload: data,
 });
+
+export const sendResetMail = (formProps, callback) => async (dispatch) => {
+  try {
+    await axios('http://localhost:5000/forgot', {
+      method: 'post',
+      data: formProps,
+      withCredentials: true,
+    });
+    callback();
+  } catch (e) {
+    dispatch({ type: RESET_ERROR, payload: 'reset error' });
+  }
+};
+
+export const resetPassword = (formProps, token, callback) => async (dispatch) => {
+  try {
+    await axios(`http://localhost:5000/forgot/${token}`, {
+      method: 'post',
+      data: formProps,
+      withCredentials: true,
+    });
+    callback();
+  } catch (e) {
+    dispatch({ type: RESET_ERROR, payload: 'reset error' });
+  }
+};

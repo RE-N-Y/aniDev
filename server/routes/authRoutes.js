@@ -66,7 +66,7 @@ module.exports = (app) => {
         to: user.email,
         from: 'passwordreset@anipin.ai',
         subject: 'Password Reset',
-        text: `http://${req.headers.host}/reset/${token}`,
+        text: `http://localhost:3000/reset/${token}`,
       };
       mailer.sendMail(options, (err) => {
         if (err) {

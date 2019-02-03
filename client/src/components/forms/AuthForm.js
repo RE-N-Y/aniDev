@@ -35,6 +35,7 @@ class AuthForm extends Component {
           <label>Password</label>
           <Field name="password" type="password" component="input" autoComplete="none" />
         </fieldset>
+        <a href="http://localhost:3000/forgot">Forgot Passowrd?</a>
         <div>{this.props.errorMessage}</div>
         <button>{this.props.signup ? 'Sign Up' : 'Sign In'}</button>
         <a href="http://localhost:5000/auth/google">Sign in with Google</a>
