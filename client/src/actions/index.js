@@ -88,7 +88,7 @@ export const sendResetMail = (formProps, callback) => async (dispatch) => {
 
 export const resetPassword = (formProps, token, callback) => async (dispatch) => {
   try {
-    await axios(`http://localhost:5000/forgot/${token}`, {
+    await axios(`http://localhost:5000/reset/${token}`, {
       method: 'post',
       data: formProps,
       withCredentials: true,

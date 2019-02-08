@@ -41,7 +41,7 @@ ReactDOM.render(
         <Route path="/admin/:type/pages/:nPage" exact component={ViewItem} />
         <Route path="/users/:id/edit" component={Form('userForm', 'put')} />
         <Route path="/forgot" exact component={Forgot} />
-        <Route path="/forgot/:token" exact component={Reset} />
+        <Route path="/reset/:token" exact component={Reset} />
       </App>
     </BrowserRouter>
   </Provider>,
