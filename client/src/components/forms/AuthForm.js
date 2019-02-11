@@ -18,7 +18,7 @@ class AuthForm extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, renderTextField } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         {this.props.signup ? (

@@ -4,7 +4,7 @@ import { Field, FieldArray, getFormValues } from 'redux-form';
 import axios from 'axios';
 import form from '../extensions/form';
 import * as actions from '../../actions';
-import { bufferToImage } from './../extensions/Util'; 
+import { bufferToImage } from '../extensions/Util';
 
 class AnimeForm extends Component {
   async componentWillMount() {
@@ -36,7 +36,9 @@ class AnimeForm extends Component {
     const {
       history,
       requestType,
-      match:{params:{id}},
+      match: {
+        params: { id },
+      },
       createRequest,
       updateRequest,
       bufferToBase64,
@@ -88,16 +90,28 @@ class AnimeForm extends Component {
       renderList,
       formValues,
       renderDatePicker,
+      renderTextField,
     } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field name="title" type="text" component="input" placeholder="title" />
-        <Field name="rating" type="number" step="0.01" component="input" placeholder="ratings" />
+        <Field name="title" component={renderTextField} placeholder="title" />
+        <Field
+          name="rating"
+          type="number"
+          step="0.01"
+          component={renderTextField}
+          placeholder="ratings"
+        />
         <Field name="mainImage" component={renderFileInput} placeholder="main image" />
         <img alt="main preview" src={formValues ? formValues.mainImage : null} />
         <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
         <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
-        <Field name="synopsis" component="textarea" placeholder="synopsis" />
+        <Field
+          name="synopsis"
+          component={renderTextField}
+          placeholder="synopsis"
+          multiline
+        />
         <Field name="review" component={renderQuill} />
         <Field name="startedAiring" component={renderDatePicker} />
         <Field name="finishedAiring" component={renderDatePicker} />

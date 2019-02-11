@@ -41,6 +41,21 @@ export default (ChildComponent, formName) => {
         ))}
       </ul>
     );
+    
+    renderTextField = ({
+      input,
+      label,
+      meta: { touched, error },
+      ...custom
+    }) => (
+      <TextField
+        hintText={label}
+        floatingLabelText={label}
+        errorText={touched && error}
+        {...input}
+        {...custom}
+      />
+    )
 
     renderFileInput = ({
       input: {
@@ -86,6 +101,7 @@ export default (ChildComponent, formName) => {
           bufferToBase64={this.bufferToBase64}
           extractToList={this.extractToList}
           renderDropDown={this.renderDropDown}
+          renderTextField={this.renderTextField}
           {...this.props}
         />
       );
