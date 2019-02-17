@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import 'react-quill/dist/quill.snow.css';
-import TextField from '@material-ui/core/TextField';
+import { TextField, List, ListItem, Button } from '@material-ui/core/';
 import * as actions from '../../actions';
 
 export default (ChildComponent, formName) => {
@@ -24,38 +24,25 @@ export default (ChildComponent, formName) => {
     );
 
     renderList = ({ fields }) => (
-      <ul>
-        <li>
-          <button type="button" onClick={() => fields.push({})}>
-            Add
-          </button>
-        </li>
+      <List>
+        <ListItem>
+          <Button onClick={() => fields.push({})}>Add</Button>
+        </ListItem>
         {fields.map((item, index) => (
-          <li key={index}>
-            <button type="button" onClick={() => fields.remove(index)}>
-              Remove
-            </button>
+          <ListItem key={index}>
             <h4>{index}</h4>
             <Field name={`${item}.content`} type="text" component="input" />
-          </li>
+            <Button onClick={() => fields.remove(index)}>Remove</Button>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     );
-    
+
     renderTextField = ({
-      input,
-      label,
-      meta: { touched, error },
-      ...custom
+      input, label, variant, type,
     }) => (
-      <TextField
-        hintText={label}
-        floatingLabelText={label}
-        errorText={touched && error}
-        {...input}
-        {...custom}
-      />
-    )
+      <TextField label={label} variant={variant} type={type} {...input} />
+    );
 
     renderFileInput = ({
       input: {

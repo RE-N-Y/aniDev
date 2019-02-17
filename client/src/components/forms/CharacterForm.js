@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
 import form from '../extensions/form';
 import * as actions from '../../actions';
-import { bufferToImage } from './../extensions/Util';
+import { bufferToImage } from '../extensions/Util';
 
 class CharacterForm extends Component {
   async componentWillMount() {
@@ -82,7 +83,7 @@ class CharacterForm extends Component {
         <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
         <FieldArray name="relatedAnimes" component={renderList} />
         <FieldArray name="relatedCharacters" component={renderList} />
-        <button type="submit">Submit</button>
+        <Button type="submit">Submit</Button>
       </form>
     );
   }
