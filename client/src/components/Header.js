@@ -5,7 +5,7 @@ import { AppBar, Toolbar } from '@material-ui/core/';
 class Header extends Component {
   render() {
     return (
-      <AppBar>
+      <AppBar position="sticky">
         <Toolbar>
           <Link to="/">ANIPIN</Link>
           <Link to="/signup">Sign Up</Link>

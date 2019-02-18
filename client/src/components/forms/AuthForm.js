@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 import * as actions from '../../actions';
 import form from '../extensions/form';
 
@@ -33,7 +33,13 @@ class AuthForm extends Component {
           </fieldset>
         ) : null}
         <fieldset>
-          <Field name="email" label="Email" variant="outlined" component={renderTextField} />
+          <Field
+            name="email"
+            label="Email"
+            variant="outlined"
+            component={renderTextField}
+            inputStyle={{ backgroundColor: 'red' }}
+          />
         </fieldset>
         <fieldset>
           <Field
@@ -46,7 +52,7 @@ class AuthForm extends Component {
         </fieldset>
         <a href="http://localhost:3000/forgot">Forgot Passowrd?</a>
         <div>{this.props.errorMessage}</div>
-        <Button type="submit" variant="contained">
+        <Button color="primary" type="submit" variant="contained">
           {this.props.signup ? 'Sign Up' : 'Sign In'}
         </Button>
         <Button variant="contained" href="http://localhost:5000/auth/google">

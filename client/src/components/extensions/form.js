@@ -4,7 +4,9 @@ import ReactQuill from 'react-quill';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import 'react-quill/dist/quill.snow.css';
-import { TextField, List, ListItem, Button } from '@material-ui/core/';
+import {
+  TextField, List, ListItem, Button,
+} from '@material-ui/core/';
 import * as actions from '../../actions';
 
 export default (ChildComponent, formName) => {
@@ -39,9 +41,9 @@ export default (ChildComponent, formName) => {
     );
 
     renderTextField = ({
-      input, label, variant, type,
+      input, label, variant, type, inputStyle,
     }) => (
-      <TextField label={label} variant={variant} type={type} {...input} />
+      <TextField label={label} variant={variant} inputStyle={inputStyle} type={type} {...input} />
     );
 
     renderFileInput = ({
