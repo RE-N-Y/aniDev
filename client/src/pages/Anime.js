@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Typography } from '@material-ui/core/';
 import { bufferToImage } from '../components/extensions/Util';
 
 class Anime extends Component {
@@ -37,9 +38,9 @@ class Anime extends Component {
     } = this.state.data;
     return (
       <div>
-        <h2>{title}</h2>
-        <p>{synopsis}</p>
-        <p>{rating}</p>
+        <Typography variant="title">{title}</Typography>
+        <Typography variant="body2">{synopsis}</Typography>
+        <Typography variant="subtitle2">{rating}</Typography>
         <div dangerouslySetInnerHTML={{ __html: review }} />
         <img alt="thumbnail" src={bufferToImage(thumbnail)} />
         <img alt="mainImage" src={bufferToImage(mainImage)} />

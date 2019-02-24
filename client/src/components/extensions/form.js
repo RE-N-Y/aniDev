@@ -41,9 +41,16 @@ export default (ChildComponent, formName) => {
     );
 
     renderTextField = ({
-      input, label, variant, type, inputStyle,
+      input, label, variant, type, InputLabelProps, InputProps,
     }) => (
-      <TextField label={label} variant={variant} inputStyle={inputStyle} type={type} {...input} />
+      <TextField
+        label={label}
+        variant={variant}
+        InputLabelProps={InputLabelProps}
+        InputProps={InputProps}
+        type={type}
+        {...input}
+      />
     );
 
     renderFileInput = ({

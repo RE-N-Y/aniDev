@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import * as actions from '../../actions';
 import form from '../extensions/form';
+
+const style = theme => ({
+  cssFocused: {},
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: 'white !important',
+  },
+  cssLabel: {
+    color: 'white !important',
+  },
+});
 
 class AuthForm extends Component {
   onSubmit = (formProps) => {
@@ -19,7 +31,19 @@ class AuthForm extends Component {
   };
 
   render() {
-    const { handleSubmit, renderTextField } = this.props;
+    const { handleSubmit, renderTextField, classes } = this.props;
+    const inputStyle = {
+      classes: {
+        focused: classes.cssFocused,
+        notchedOutline: classes.notchedOutline,
+      },
+    };
+    const inputLabelStyle = {
+      classes: {
+        root: classes.cssLabel,
+        focused: classes.cssFocused,
+      },
+    };
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         {this.props.signup ? (
@@ -29,6 +53,8 @@ class AuthForm extends Component {
               label="Username"
               variant="outlined"
               component={renderTextField}
+              InputLabelProps={inputLabelStyle}
+              InputProps={inputStyle}
             />
           </fieldset>
         ) : null}
@@ -38,7 +64,8 @@ class AuthForm extends Component {
             label="Email"
             variant="outlined"
             component={renderTextField}
-            inputStyle={{ backgroundColor: 'red' }}
+            InputLabelProps={inputLabelStyle}
+            InputProps={inputStyle}
           />
         </fieldset>
         <fieldset>
@@ -48,9 +75,11 @@ class AuthForm extends Component {
             type="password"
             variant="outlined"
             component={renderTextField}
+            InputLabelProps={inputLabelStyle}
+            InputProps={inputStyle}
           />
         </fieldset>
-        <a href="http://localhost:3000/forgot">Forgot Passowrd?</a>
+        <Button href="http://localhost:3000/forgot">Forgot Password?</Button>
         <div>{this.props.errorMessage}</div>
         <Button color="primary" type="submit" variant="contained">
           {this.props.signup ? 'Sign Up' : 'Sign In'}
@@ -65,7 +94,9 @@ class AuthForm extends Component {
 
 const mapStateToProps = state => ({ errorMessage: state.auth.errorMessage });
 
-export default connect(
-  mapStateToProps,
-  actions,
-)(form(AuthForm, 'authForm'));
+export default withStyles(style)(
+  connect(
+    mapStateToProps,
+    actions,
+  )(form(AuthForm, 'authForm')),
+);
