@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import 'react-quill/dist/quill.snow.css';
 import {
   TextField, List, ListItem, Button,
 } from '@material-ui/core/';
+import { quillStyle } from './formStyle';
 import * as actions from '../../actions';
 
 export default (ChildComponent, formName) => {
   class ComposedComponent extends Component {
     renderQuill = ({ input }) => (
       <ReactQuill
+        theme="snow"
+        style={quillStyle}
         {...input}
         onChange={(newValue, delta, source) => {
           if (source === 'user') {
@@ -33,7 +36,7 @@ export default (ChildComponent, formName) => {
         {fields.map((item, index) => (
           <ListItem key={index}>
             <h4>{index}</h4>
-            <Field name={`${item}.content`} type="text" component="input" />
+            <Field name={`${item}.content`} component={this.renderTextField} />
             <Button onClick={() => fields.remove(index)}>Remove</Button>
           </ListItem>
         ))}
@@ -49,6 +52,8 @@ export default (ChildComponent, formName) => {
         InputLabelProps={InputLabelProps}
         InputProps={InputProps}
         type={type}
+        margin="normal"
+        fullWidth
         {...input}
       />
     );

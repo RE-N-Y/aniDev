@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 class ViewItem extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class ViewItem extends Component {
       history,
     } = this.props;
     return (
-      <ul>
+      <List>
         {this.state.items.map(item => (
           <div
             key={item._id}
@@ -44,10 +45,12 @@ class ViewItem extends Component {
               history.push(`/${type}/${item._id}/edit`);
             }}
           >
-            <li>{item[this.getItemName(type)]}</li>
+            <ListItem button>
+              <ListItemText>{item[this.getItemName(type)]}</ListItemText>
+            </ListItem>
           </div>
         ))}
-      </ul>
+      </List>
     );
   }
 }

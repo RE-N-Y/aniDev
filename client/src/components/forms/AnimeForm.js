@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import axios from 'axios';
+import { Button, FormGroup, FormControlLabel } from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
 import { bufferToImage } from '../extensions/Util';
@@ -94,7 +95,7 @@ class AnimeForm extends Component {
     } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field name="title" component={renderTextField} placeholder="title" />
+        <Field name="title" label="Title" component={renderTextField} placeholder="Title" />
         <Field
           name="rating"
           type="number"
@@ -102,22 +103,25 @@ class AnimeForm extends Component {
           component={renderTextField}
           placeholder="ratings"
         />
-        <Field name="mainImage" component={renderFileInput} placeholder="main image" />
-        <img alt="main preview" src={formValues ? formValues.mainImage : null} />
-        <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
-        <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
-        <Field
-          name="synopsis"
-          component={renderTextField}
-          placeholder="synopsis"
-          multiline
-        />
+        <FormGroup>
+          <Field name="mainImage" component={renderFileInput} placeholder="main image" />
+          <img alt="main preview" src={formValues ? formValues.mainImage : null} />
+        </FormGroup>
+        <FormGroup>
+          <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
+          <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
+        </FormGroup>
+        <Field name="synopsis" component={renderTextField} placeholder="synopsis" multiline />
         <Field name="review" component={renderQuill} />
-        <Field name="startedAiring" component={renderDatePicker} />
-        <Field name="finishedAiring" component={renderDatePicker} />
-        <FieldArray name="relatedAnimes" component={renderList} />
-        <FieldArray name="relatedCharacters" component={renderList} />
-        <button type="submit">Submit</button>
+        <FormGroup>
+          <Field name="startedAiring" component={renderDatePicker} />
+          <Field name="finishedAiring" component={renderDatePicker} />
+        </FormGroup>
+        <FormGroup>
+          <FieldArray name="relatedAnimes" component={renderList} />
+          <FieldArray name="relatedCharacters" component={renderList} />
+        </FormGroup>
+        <Button type="submit">Submit</Button>
       </form>
     );
   }
