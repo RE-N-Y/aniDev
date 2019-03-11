@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
-import { compose } from 'redux';
+import { Field } from 'redux-form';
+import { FormGroup, Typography } from '@material-ui/core';
+import form from '../components/extensions/form';
 import * as actions from '../actions';
 
 class Reset extends Component {
@@ -19,14 +20,14 @@ class Reset extends Component {
   };
 
   render() {
-    const { handleSubmit, resetErrorMessage } = this.props;
+    const { handleSubmit, resetErrorMessage, renderTextField } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label>New Password</label>
-          <Field name="password" type="password" component="input" />
-        </fieldset>
-        <div>{resetErrorMessage}</div>
+        <FormGroup>
+          <Typography>Enter New Password</Typography>
+          <Field name="password" type="password" component={renderTextField} />
+          <div>{resetErrorMessage}</div>
+        </FormGroup>
       </form>
     );
   }
@@ -36,10 +37,9 @@ const mapStateToProps = ({ auth: { resetErrorMessage } }) => ({
   resetErrorMessage,
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    actions,
-  ),
-  reduxForm({ form: 'resetForm' }),
-)(Reset);
+const WrappedResetForm = form(Reset, 'resetForm');
+
+export default connect(
+  mapStateToProps,
+  actions,
+)(WrappedResetForm);

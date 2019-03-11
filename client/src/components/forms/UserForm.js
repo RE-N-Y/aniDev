@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import MenuItem from '@material-ui/core/MenuItem';
+import { MenuItem, Button, FormGroup } from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
 import requireAuth from '../extensions/requireAuth';
@@ -34,16 +34,20 @@ class UserForm extends Component {
   };
 
   render() {
-    const { handleSubmit, renderDropDown } = this.props;
+    const { handleSubmit, renderDropDown, renderTextField } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field name="username" type="text" component="input" label="Username" />
-        <Field name="access" component={renderDropDown}>
-          <MenuItem value="member">Member</MenuItem>
-          <MenuItem value="editor">Editor</MenuItem>
-          <MenuItem value="admin">Admin</MenuItem>
-        </Field>
-        <button type="submit">Submit</button>
+        <FormGroup style={{ marginBottom: 10 }}>
+          <Field name="username" component={renderTextField} label="Username" />
+          <Field name="access" component={renderDropDown}>
+            <MenuItem value="member">Member</MenuItem>
+            <MenuItem value="editor">Editor</MenuItem>
+            <MenuItem value="admin">Admin</MenuItem>
+          </Field>
+        </FormGroup>
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
       </form>
     );
   }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
-import { compose } from 'redux';
+import { Field } from 'redux-form';
+import { Typography, FormGroup } from '@material-ui/core';
+import form from '../components/extensions/form';
 import * as actions from '../actions';
 
 class Forgot extends Component {
@@ -12,14 +13,14 @@ class Forgot extends Component {
   };
 
   render() {
-    const { handleSubmit, resetErrorMessage } = this.props;
+    const { handleSubmit, resetErrorMessage, renderTextField } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label>Email</label>
-          <Field name="email" type="text" component="input" />
-        </fieldset>
-        <div>{resetErrorMessage}</div>
+        <FormGroup>
+          <Typography>Enter Email</Typography>
+          <Field name="email" component={renderTextField} />
+          <div>{resetErrorMessage}</div>
+        </FormGroup>
       </form>
     );
   }
@@ -29,10 +30,9 @@ const mapStateToProps = ({ auth: { resetErrorMessage } }) => ({
   resetErrorMessage,
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    actions,
-  ),
-  reduxForm({ form: 'forgotForm' }),
-)(Forgot);
+const WrappedForgotForm = form(Forgot, 'forgotForm');
+
+export default connect(
+  mapStateToProps,
+  actions,
+)(WrappedForgotForm);

@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import axios from 'axios';
-import { Button, FormGroup, FormControlLabel } from '@material-ui/core';
+import {
+  Button, FormGroup, Card, CardContent, CardMedia, Typography,
+} from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
 import { bufferToImage } from '../extensions/Util';
+import { errorImage } from '../../resources/errorImage';
 
 class AnimeForm extends Component {
   async componentWillMount() {
@@ -93,9 +96,20 @@ class AnimeForm extends Component {
       renderDatePicker,
       renderTextField,
     } = this.props;
+
+    const styles = {
+      card: {
+        maxWidth: 345,
+        margin: 15,
+      },
+      media: {
+        objectFit: 'cover',
+      },
+    };
+
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field name="title" label="Title" component={renderTextField} placeholder="Title" />
+        <Field name="title" component={renderTextField} label="Title" />
         <Field
           name="rating"
           type="number"
@@ -103,13 +117,32 @@ class AnimeForm extends Component {
           component={renderTextField}
           placeholder="ratings"
         />
-        <FormGroup>
-          <Field name="mainImage" component={renderFileInput} placeholder="main image" />
-          <img alt="main preview" src={formValues ? formValues.mainImage : null} />
-        </FormGroup>
-        <FormGroup>
-          <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
-          <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
+        <FormGroup row>
+          <Card style={styles.card}>
+            <CardMedia
+              style={styles.media}
+              component="img"
+              height="140"
+              src={formValues ? formValues.mainImage : errorImage}
+            />
+            <CardContent>
+              <Typography variant="subtitle1">MAIN IMAGE</Typography>
+              <Field name="mainImage" component={renderFileInput} placeholder="main image" />
+            </CardContent>
+          </Card>
+
+          <Card style={styles.card}>
+            <CardMedia
+              style={styles.media}
+              component="img"
+              height="140"
+              src={formValues ? formValues.thumbnail : errorImage}
+            />
+            <CardContent>
+              <Typography variant="subtitle1">THUMBNAIL</Typography>
+              <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
+            </CardContent>
+          </Card>
         </FormGroup>
         <Field name="synopsis" component={renderTextField} placeholder="synopsis" multiline />
         <Field name="review" component={renderQuill} />
@@ -121,7 +154,7 @@ class AnimeForm extends Component {
           <FieldArray name="relatedAnimes" component={renderList} />
           <FieldArray name="relatedCharacters" component={renderList} />
         </FormGroup>
-        <Button type="submit">Submit</Button>
+        <Button variant="contained" type="submit">Submit</Button>
       </form>
     );
   }

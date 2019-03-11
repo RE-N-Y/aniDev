@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
+import {
+  Button, FormGroup, Card, CardContent, CardMedia, Typography,
+} from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
 import { bufferToImage } from '../extensions/Util';
+import { errorImage } from '../../resources/errorImage';
 
 class CharacterForm extends Component {
   async componentWillMount() {
@@ -72,18 +75,47 @@ class CharacterForm extends Component {
 
   render() {
     const {
-      handleSubmit, renderQuill, renderFileInput, renderList, formValues,
+      handleSubmit,
+      renderQuill,
+      renderFileInput,
+      renderList,
+      formValues,
+      renderTextField,
     } = this.props;
+
+    const styles = {
+      card: {
+        maxWidth: 345,
+        margin: 15,
+      },
+      media: {
+        objectFit: 'cover',
+      },
+    };
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field name="name" type="text" component="input" />
+        <Field name="name" label="Name" component={renderTextField} />
         <Field name="description" component={renderQuill} />
-        <Field name="thumbnail" component={renderFileInput} />
-        <img alt="thumbnail preview" src={formValues ? formValues.thumbnail : null} />
-        <FieldArray name="relatedAnimes" component={renderList} />
-        <FieldArray name="relatedCharacters" component={renderList} />
-        <Button type="submit">Submit</Button>
+        <FormGroup row>
+          <Card style={styles.card}>
+            <CardMedia
+              style={styles.media}
+              component="img"
+              height="140"
+              src={formValues ? formValues.thumbnail : errorImage}
+            />
+            <CardContent>
+              <Typography variant="subtitle1">THUMBNAIL</Typography>
+              <Field name="thumbnail" component={renderFileInput} placeholder="thumbnail" />
+            </CardContent>
+          </Card>
+        </FormGroup>
+        <FormGroup>
+          <FieldArray name="relatedAnimes" component={renderList} />
+          <FieldArray name="relatedCharacters" component={renderList} />
+        </FormGroup>
+        <Button variant="contained" type="submit">Submit</Button>
       </form>
     );
   }

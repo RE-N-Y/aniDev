@@ -30,18 +30,18 @@ class App extends Component {
         text: {
           secondary: '#000000',
         },
-        typography: {
-          useNextVariants: true,
-          fontFamily: ['Rubik'].join(','),
-          h1: { fontStyle: 'light' },
-          h2: { fontStyle: 'light' },
-          h3: { fontStyle: 'regular' },
-          h4: { fontStyle: 'regular' },
-          h5: { fontStyle: 'medium' },
-          h6: { fontStyle: 'medium' },
-          body1: { fontStyle: 'regular' },
-          body2: { fontStyle: 'regular' },
-        },
+      },
+      typography: {
+        useNextVariants: true,
+        fontFamily: ['Rubik'].join(','),
+        h1: { fontStyle: 'light' },
+        h2: { fontStyle: 'light' },
+        h3: { fontStyle: 'regular' },
+        h4: { fontStyle: 'regular' },
+        h5: { fontStyle: 'medium' },
+        h6: { fontStyle: 'medium' },
+        body1: { fontStyle: 'regular' },
+        body2: { fontStyle: 'regular' },
       },
     });
 

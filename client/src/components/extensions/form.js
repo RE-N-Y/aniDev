@@ -5,16 +5,35 @@ import 'react-quill/dist/quill.snow.css';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import {
-  TextField, List, ListItem, Button,
+  TextField, List, ListItem, Button, Typography,
 } from '@material-ui/core/';
+import { CloudUploadSharp } from '@material-ui/icons';
 import { quillStyle } from './formStyle';
 import * as actions from '../../actions';
+
+const Quill = ReactQuill.Quill;
+const Font = Quill.import('formats/font');
+Font.whiteList = ['Ubuntu', 'Raleway', 'Roboto'];
+Quill.register(Font, true);
 
 export default (ChildComponent, formName) => {
   class ComposedComponent extends Component {
     renderQuill = ({ input }) => (
       <ReactQuill
         theme="snow"
+        modules={{
+          toolbar: [
+            [{ header: '1' }, { header: '2' }],
+            [{ size: [] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+            ['link', 'image', 'video'],
+            ['clean'],
+          ],
+          clipboard: {
+            matchVisual: false,
+          },
+        }}
         style={quillStyle}
         {...input}
         onChange={(newValue, delta, source) => {
@@ -44,7 +63,13 @@ export default (ChildComponent, formName) => {
     );
 
     renderTextField = ({
-      input, label, variant, type, InputLabelProps, InputProps,
+      input,
+      label,
+      variant,
+      type,
+      InputLabelProps,
+      InputProps,
+      placeholder,
     }) => (
       <TextField
         label={label}
@@ -53,6 +78,7 @@ export default (ChildComponent, formName) => {
         InputProps={InputProps}
         type={type}
         margin="normal"
+        placeholder={placeholder}
         fullWidth
         {...input}
       />
@@ -65,14 +91,19 @@ export default (ChildComponent, formName) => {
       meta: omitMeta,
       ...props
     }) => (
-      <input
-        type="file"
-        accept="image/*"
-        onChange={async e => onChange(await this.imageToBase64(e.target.files[0]))}
-        onBlur={async e => onBlur(await this.imageToBase64(e.target.files[0]))}
-        {...inputProps}
-        {...props}
-      />
+      <Button secondary variant="outlined" component="label" label="UPLOAD">
+        <input
+          type="file"
+          style={{ display: 'none' }}
+          accept="image/*"
+          onChange={async e => onChange(await this.imageToBase64(e.target.files[0]))}
+          onBlur={async e => onBlur(await this.imageToBase64(e.target.files[0]))}
+          {...inputProps}
+          {...props}
+        />
+        <Typography>UPLOAD</Typography>
+        <CloudUploadSharp style={{ marginLeft: 5 }} />
+      </Button>
     );
 
     renderDatePicker = ({ input }) => <TextField type="date" {...input} />;

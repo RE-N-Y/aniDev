@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Button, FormControl, FormGroup } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
 
@@ -42,7 +42,9 @@ class PostForm extends Component {
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field name="title" component={renderTextField} label="Title" />
         <Field name="content" component={renderQuill} />
-        <Button type="submit">Submit</Button>
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
       </form>
     );
   }
