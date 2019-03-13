@@ -42,6 +42,8 @@ ReactDOM.render(
         <Route path="/users/:id/edit" component={Form('userForm', 'put')} />
         <Route path="/forgot" exact component={Forgot} />
         <Route path="/reset/:token" exact component={Reset} />
+        <Route path="/createStudio" exact component={Form('studioForm', 'post')} />
+        <Route path="/studios/:id/edit" exact component={Form('studioForm', 'put')} />
       </App>
     </BrowserRouter>
   </Provider>,

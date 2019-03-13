@@ -12,7 +12,7 @@ const styles = theme => ({
     width: 290,
     flexShrink: 0,
     alignItems: 'center',
-    backgroundColor: theme.palette.accent1Color,
+    backgroundColor: theme.palette.secondary.main,
   },
   logo: {
     width: 200,

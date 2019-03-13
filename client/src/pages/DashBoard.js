@@ -19,6 +19,9 @@ class DashBoard extends Component {
         <Link to="/admin/users/pages/1">
           <Button>User</Button>
         </Link>
+        <Link to="/admin/studios/pages/1">
+          <Button>Studio</Button>
+        </Link>
       </div>
     );
   }

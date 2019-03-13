@@ -16,6 +16,8 @@ const extractParams = async (object) => {
 
 module.exports = (app) => {
   app.get('/characters/pages/:nPage', EditorAccess, CommonController.getList('characters'));
+  app.get('/characters/all', CommonController.getAll('characters'));
+  app.get('/characters/search/:search', CommonController.search('characters'));
   app.post('/characters', EditorAccess, (req, res) => {
     Character.findOne({ name: req.body.name }, async (err, character) => {
       if (character) {

@@ -8,6 +8,8 @@ const Anime = mongoose.model('animes');
 
 const Character = mongoose.model('characters');
 
+const Studio = mongoose.model('studios');
+
 const chooseModel = (model) => {
   switch (model) {
     case 'users':
@@ -18,6 +20,8 @@ const chooseModel = (model) => {
       return Character;
     case 'posts':
       return Post;
+    case 'studios':
+      return Studio;
   }
 };
 
@@ -44,12 +48,35 @@ exports.getById = (model) => {
   return middleware;
 };
 
+exports.getAll = (model) => {
+  const middleware = (req, res) => {
+    const DB = chooseModel(model);
+    DB.find().exec((err, items) => {
+      const name = model === 'animes' ? 'title' : 'name';
+      res.send(items.map(item => item[name]));
+    });
+  };
+  return middleware;
+};
+
+exports.search = (model) => {
+  const middleware = (req, res) => {
+    const DB = chooseModel(model);
+    const name = model === 'animes' ? 'title' : 'name';
+    DB.find({ [name]: { $regex: req.params.search, $options: 'i' } }, (err, items) => {
+      res.send(items.map(item => item[name]));
+    });
+  };
+  return middleware;
+};
+
 exports.getFullDocById = (model, fields) => {
   const middleware = (req, res) => {
     const DB = chooseModel(model);
     DB.findById(req.params.id)
       .populate({ path: 'relatedAnimes', select: fields })
       .populate({ path: 'relatedCharacters', select: fields })
+      .populate({ path: 'relatedStudios', select: fields })
       .exec((err, item) => {
         res.send(item);
       });

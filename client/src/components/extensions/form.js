@@ -3,18 +3,63 @@ import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { compose } from 'redux';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
+import axios from 'axios';
 import {
-  TextField, List, ListItem, Button, Typography,
+  TextField, MenuItem, Button, Typography, Chip, Paper,
 } from '@material-ui/core/';
-import { CloudUploadSharp } from '@material-ui/icons';
+import { withStyles } from '@material-ui/core/styles';
+import { emphasize } from '@material-ui/core/styles/colorManipulator';
+import classNames from 'classnames';
+import AsyncSelect from 'react-select/lib/Async';
+import { CloudUploadSharp, CancelOutlined } from '@material-ui/icons';
 import { quillStyle } from './formStyle';
 import * as actions from '../../actions';
+import { genreList } from '../../resources/List';
 
-const Quill = ReactQuill.Quill;
-const Font = Quill.import('formats/font');
-Font.whiteList = ['Ubuntu', 'Raleway', 'Roboto'];
-Quill.register(Font, true);
+const style = theme => ({
+  input: {
+    display: 'flex',
+    padding: 0,
+  },
+  valueContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: 1,
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  chip: {
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+  },
+  chipFocused: {
+    backgroundColor: emphasize(
+      theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
+      0.08,
+    ),
+  },
+  message: {
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+  },
+  singleValue: {
+    fontSize: 16,
+  },
+  placeholder: {
+    position: 'absolute',
+    left: 2,
+    fontSize: 16,
+  },
+  paper: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  divider: {
+    height: theme.spacing.unit * 2,
+  },
+});
 
 export default (ChildComponent, formName) => {
   class ComposedComponent extends Component {
@@ -47,20 +92,140 @@ export default (ChildComponent, formName) => {
       />
     );
 
-    renderList = ({ fields }) => (
-      <List>
-        <ListItem>
-          <Button onClick={() => fields.push({})}>Add</Button>
-        </ListItem>
-        {fields.map((item, index) => (
-          <ListItem key={index}>
-            <h4>{index}</h4>
-            <Field name={`${item}.content`} component={this.renderTextField} />
-            <Button onClick={() => fields.remove(index)}>Remove</Button>
-          </ListItem>
-        ))}
-      </List>
-    );
+    renderList = ({ fields, type, label }) => {
+      const getSuggestions = async (inputValue) => {
+        if (type === 'genres') {
+          return new Promise((resolve) => {
+            resolve(genreList.map(value => ({ label: value, value })));
+          });
+        }
+        const response = await axios.get(`http://localhost:5000/${type}/search/${inputValue}`);
+        return response.data.map(value => ({ label: value, value }));
+      };
+      const inputComponent = ({ inputRef, ...props }) => <div ref={inputRef} {...props} />;
+      const Control = props => (
+        <TextField
+      fullWidth
+      InputProps={{
+        inputComponent,
+        inputProps: {
+          className: props.selectProps.classes.input,
+          inputRef: props.innerRef,
+          children: props.children,
+          ...props.innerProps,
+        },
+      }}
+      {...props.selectProps.textFieldProps}
+    />
+      );
+      const Option = props => (
+        <MenuItem
+      buttonRef={props.innerRef}
+      selected={props.isFocused}
+      component="div"
+      style={{
+        fontWeight: props.isSelected ? 500 : 400,
+      }}
+      {...props.innerProps}
+    >
+      {props.children}
+    </MenuItem>
+      );
+      const Message = (props) => {
+        return (
+          <Typography
+            className={props.selectProps.classes.message}
+            {...props.innerProps}
+          >
+            {props.children}
+          </Typography>
+        );
+      }
+      const Placeholder = props => (
+        <Typography
+      className={props.selectProps.classes.placeholder}
+      {...props.innerProps}
+    >
+      {props.children}
+    </Typography>
+      );
+
+      const SingleValue = (props) => {
+        return (
+          <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
+            {props.children}
+          </Typography>
+        );
+      }
+      const ValueContainer = props => (
+        <div className={props.selectProps.classes.valueContainer}>{props.children}</div>
+      );
+      const MultiValue = props => (
+        <Chip
+      tabIndex={-1}
+      label={props.children}
+      className={classNames(props.selectProps.classes.chip, {
+        [props.selectProps.classes.chipFocused]: props.isFocused,
+      })}
+      onDelete={props.removeProps.onClick}
+      deleteIcon={<CancelOutlined {...props.removeProps} />}
+    />
+      );
+      const Menu = props => (
+          <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
+            {props.children}
+          </Paper>
+      );
+      const components = {
+        Control,
+        Menu,
+        MultiValue,
+        Option,
+        Placeholder,
+        SingleValue,
+        ValueContainer,
+        NoOptionsMessage:Message,
+        LoadingMessage:Message
+      };
+
+      const { classes } = this.props;
+
+      const selectStyles = {
+        input: base => ({
+          ...base,
+          '& input': {
+            font: 'inherit',
+          },
+        }),
+      };
+  
+      return (
+          <AsyncSelect
+            loadOptions={getSuggestions}
+            isMulti
+            type={type}
+            cacheOptions
+            defaultOptions
+            styles={selectStyles}
+            noResultsText={<Typography>No results found</Typography>}
+            classes={classes}
+            textFieldProps={{
+              label,
+              InputLabelProps: {
+                shrink: true,
+              },
+            }}
+            components={components}
+            placeholder={`Select Multiple ${label}`}
+            onChange={(newValue) => {
+              fields.removeAll();
+              newValue.forEach(({ value }) => {
+                fields.push({ content: value });
+              });
+            }}
+          />
+      );
+    };
 
     renderTextField = ({
       input,
@@ -141,10 +306,11 @@ export default (ChildComponent, formName) => {
   }
 
   return compose(
-    connect(
-      null,
-      actions,
-    ),
-    reduxForm({ form: formName, enableReinitialize: true }),
-  )(ComposedComponent);
+      withStyles(style,{withTheme:true}),
+      connect(
+        null,
+        actions,
+      ),
+      reduxForm({ form: formName, enableReinitialize: true }),
+    )(ComposedComponent);
 };

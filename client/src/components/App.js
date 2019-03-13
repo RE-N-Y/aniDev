@@ -23,8 +23,12 @@ class App extends Component {
   render() {
     const theme = createMuiTheme({
       palette: {
-        primary1Color: '#1A237E',
-        accent1Color: '#ffff00',
+        primary: {
+          main: '#1A237E',
+        },
+        secondary: {
+          main: '#FFEB3B',
+        },
         background: { default: '#04072D' },
         type: 'dark',
         text: {

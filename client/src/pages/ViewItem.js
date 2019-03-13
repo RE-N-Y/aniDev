@@ -11,7 +11,7 @@ class ViewItem extends Component {
   }
 
   getItemName(type) {
-    if (type === 'characters') {
+    if (type === 'characters' || type === 'studios') {
       return 'name';
     }
     if (type === 'users') {

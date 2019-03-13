@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, getFormValues } from 'redux-form';
 import axios from 'axios';
 import {
-  Button, FormGroup, Card, CardContent, CardMedia, Typography,
+  Button,
+  FormGroup,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  MenuItem,
 } from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
@@ -19,6 +25,7 @@ class AnimeForm extends Component {
           thumbnail,
           relatedAnimes,
           relatedCharacters,
+          relatedStudios,
           startedAiring,
           finishedAiring,
           ...props
@@ -32,6 +39,7 @@ class AnimeForm extends Component {
         finishedAiring: new Date(startedAiring).toISOString().split('T')[0],
         relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
         relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
+        relatedStudios: relatedStudios.map(item => ({ content: item.name })),
       });
     }
   }
@@ -50,6 +58,7 @@ class AnimeForm extends Component {
     } = this.props;
     const relatedAnimes = extractToList(formProps.relatedAnimes);
     const relatedCharacters = extractToList(formProps.relatedCharacters);
+    const relatedStudios = extractToList(formProps.relatedStudios);
     const thumbnail = bufferToBase64(formProps.thumbnail);
     const mainImage = bufferToBase64(formProps.mainImage);
     if (requestType === 'post') {
@@ -58,6 +67,7 @@ class AnimeForm extends Component {
           ...formProps,
           relatedAnimes,
           relatedCharacters,
+          relatedStudios,
           rating: parseFloat(formProps.rating),
           thumbnail,
           mainImage,
@@ -73,6 +83,7 @@ class AnimeForm extends Component {
           ...formProps,
           relatedAnimes,
           relatedCharacters,
+          relatedStudios,
           rating: parseFloat(formProps.rating),
           thumbnail,
           mainImage,
@@ -151,10 +162,14 @@ class AnimeForm extends Component {
           <Field name="finishedAiring" component={renderDatePicker} />
         </FormGroup>
         <FormGroup>
-          <FieldArray name="relatedAnimes" component={renderList} />
-          <FieldArray name="relatedCharacters" component={renderList} />
+          <FieldArray name="genres" type="genres" component={renderList} />
+          <FieldArray name="relatedAnimes" type="animes" component={renderList} />
+          <FieldArray name="relatedCharacters" type="characters" component={renderList} />
+          <FieldArray name="relatedStudios" type="studios" component={renderList} />
         </FormGroup>
-        <Button variant="contained" type="submit">Submit</Button>
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
       </form>
     );
   }

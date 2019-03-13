@@ -10,6 +10,7 @@ require('./models/Users');
 require('./models/Posts');
 require('./models/Animes');
 require('./models/Characters');
+require('./models/Studio');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -33,6 +34,7 @@ require('./routes/postRoutes')(app);
 require('./routes/userRoutes')(app);
 require('./routes/characterRoutes')(app);
 require('./routes/animeRoutes')(app);
+require('./routes/studioRoutes')(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
