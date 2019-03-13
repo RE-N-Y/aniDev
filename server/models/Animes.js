@@ -13,7 +13,6 @@ const animeSchema = new Schema({
   startedAiring: Date,
   finishedAiring: Date,
   genres: [{ type: String }],
-  studios: [{ type: String }],
   relatedCharacters: [{ type: mongoose.Schema.ObjectId, ref: 'characters' }],
   relatedAnimes: [{ type: mongoose.Schema.ObjectId, ref: 'animes' }],
   relatedStudios: [{ type: mongoose.Schema.ObjectId, ref: 'studios' }],

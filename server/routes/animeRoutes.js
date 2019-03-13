@@ -4,6 +4,7 @@ const AuthController = require('./../controllers/auth');
 
 const Anime = mongoose.model('animes');
 const Character = mongoose.model('characters');
+const Studio = mongoose.model('studios');
 const EditorAccess = AuthController.requireAccess(['admin', 'editor']);
 
 const extractParams = async (object) => {
@@ -11,6 +12,8 @@ const extractParams = async (object) => {
   object.relatedAnimes = animes.map(anime => anime.id);
   const characters = await Character.find({ name: { $in: object.relatedCharacters } });
   object.relatedCharacters = characters.map(character => character.id);
+  const studios = await Studio.find({ name: { $in: object.relatedStudios } });
+  object.relatedStudios = studios.map(studio => studio.id);
   return object;
 };
 

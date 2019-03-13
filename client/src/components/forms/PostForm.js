@@ -42,7 +42,7 @@ class PostForm extends Component {
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field name="title" component={renderTextField} label="Title" />
         <Field name="content" component={renderQuill} />
-        <Button variant="contained" type="submit">
+        <Button style={{ marginTop: 15 }} variant="contained" type="submit">
           Submit
         </Button>
       </form>

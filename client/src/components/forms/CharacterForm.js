@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, FieldArray, getFormValues } from 'redux-form';
+import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
@@ -22,8 +22,8 @@ class CharacterForm extends Component {
       this.props.initFormValues({
         ...props,
         thumbnail: bufferToImage(thumbnail),
-        relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
-        relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
+        relatedAnimes: relatedAnimes.map(item => ({ label: item.title, value: item.title })),
+        relatedCharacters: relatedCharacters.map(item => ({ label: item.name, value: item.name })),
       });
     }
   }
@@ -112,10 +112,24 @@ class CharacterForm extends Component {
           </Card>
         </FormGroup>
         <FormGroup>
-          <FieldArray name="relatedAnimes" component={renderList} />
-          <FieldArray name="relatedCharacters" component={renderList} />
+          <Field
+            label="Animes"
+            name="relatedAnimes"
+            type="animes"
+            component={renderList}
+            style={styles.listStyle}
+          />
+          <Field
+            label="Characters"
+            name="relatedCharacters"
+            type="characters"
+            component={renderList}
+            style={styles.listStyle}
+          />
         </FormGroup>
-        <Button variant="contained" type="submit">Submit</Button>
+        <Button style={{ marginTop: 15 }} variant="contained" type="submit">
+          Submit
+        </Button>
       </form>
     );
   }

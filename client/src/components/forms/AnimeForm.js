@@ -29,6 +29,7 @@ class AnimeForm extends Component {
         data: {
           mainImage,
           thumbnail,
+          genres,
           relatedAnimes,
           relatedCharacters,
           relatedStudios,
@@ -47,6 +48,7 @@ class AnimeForm extends Component {
         relatedAnimes: relatedAnimes.map(item => ({ label: item.title, value: item.title })),
         relatedCharacters: relatedCharacters.map(item => ({ label: item.name, value: item.name })),
         relatedStudios: relatedStudios.map(item => ({ label: item.name, value: item.name })),
+        genres: genres.map(item => ({ label: item, value: item }))
       });
     }
   }
@@ -66,6 +68,7 @@ class AnimeForm extends Component {
     const relatedAnimes = extractToList(formProps.relatedAnimes);
     const relatedCharacters = extractToList(formProps.relatedCharacters);
     const relatedStudios = extractToList(formProps.relatedStudios);
+    const genres = extractToList(formProps.genres);
     const thumbnail = bufferToBase64(formProps.thumbnail);
     const mainImage = bufferToBase64(formProps.mainImage);
     if (requestType === 'post') {
@@ -75,6 +78,7 @@ class AnimeForm extends Component {
           relatedAnimes,
           relatedCharacters,
           relatedStudios,
+          genres,
           rating: parseFloat(formProps.rating),
           thumbnail,
           mainImage,
@@ -91,6 +95,7 @@ class AnimeForm extends Component {
           relatedAnimes,
           relatedCharacters,
           relatedStudios,
+          genres,
           rating: parseFloat(formProps.rating),
           thumbnail,
           mainImage,
@@ -124,6 +129,9 @@ class AnimeForm extends Component {
       media: {
         objectFit: 'cover',
       },
+      listStyle: {
+        marignTop: 15,
+      },
     };
     const inputStyle = {
       classes: {
@@ -150,6 +158,7 @@ class AnimeForm extends Component {
           name="rating"
           type="number"
           step="0.01"
+          label="Rating"
           component={renderTextField}
           placeholder="ratings"
         />
@@ -180,22 +189,47 @@ class AnimeForm extends Component {
             </CardContent>
           </Card>
         </FormGroup>
-        <Field name="synopsis" component={renderTextField} placeholder="synopsis" multiline />
+        <Field
+          name="synopsis"
+          label="Synopsis"
+          component={renderTextField}
+          placeholder="synopsis"
+          multiline
+        />
         <Field name="review" component={renderQuill} />
         <FormGroup>
           <Field name="startedAiring" component={renderDatePicker} />
           <Field name="finishedAiring" component={renderDatePicker} />
         </FormGroup>
         <FormGroup>
-          <Field label="Genres" name="genres" type="genres" component={renderList} />
-          <Field label="Animes" name="relatedAnimes" type="animes" component={renderList} />
+          <Field
+            label="Genres"
+            name="genres"
+            type="genres"
+            component={renderList}
+            style={styles.listStyle}
+          />
+          <Field
+            label="Animes"
+            name="relatedAnimes"
+            type="animes"
+            component={renderList}
+            style={styles.listStyle}
+          />
           <Field
             label="Characters"
             name="relatedCharacters"
             type="characters"
             component={renderList}
+            style={styles.listStyle}
           />
-          <Field label="Studios" name="relatedStudios" type="studios" component={renderList} />
+          <Field
+            label="Studios"
+            name="relatedStudios"
+            type="studios"
+            component={renderList}
+            style={styles.listStyle}
+          />
         </FormGroup>
         <Button style={{ marginTop: 15 }} variant="contained" type="submit">
           Submit

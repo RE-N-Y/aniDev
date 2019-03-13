@@ -99,7 +99,8 @@ export default (ChildComponent, formName) => {
       const getSuggestions = async (inputValue) => {
         if (type === 'genres') {
           return new Promise((resolve) => {
-            resolve(genreList.map(value => ({ label: value, value })));
+
+            resolve(genreList.filter((str)=>{return str.includes(inputValue)}).map(value => ({ label: value, value })));
           });
         }
         const response = await axios.get(`http://localhost:5000/${type}/search/${inputValue}`);
@@ -288,7 +289,7 @@ export default (ChildComponent, formName) => {
 
     bufferToBase64 = buffer => Buffer.from(buffer.split(',')[1], 'base64');
 
-    extractToList = objectList => (objectList ? objectList.map(obj => obj.content) : null);
+    extractToList = objectList => (objectList ? objectList.map(obj => obj.value) : null);
 
     render() {
       return (

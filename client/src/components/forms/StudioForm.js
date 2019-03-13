@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, FieldArray, getFormValues } from 'redux-form';
+import { Field, getFormValues } from 'redux-form';
 import axios from 'axios';
 import {
   Button, FormGroup, Card, CardContent, CardMedia, Typography,
@@ -19,7 +19,7 @@ class AnimeForm extends Component {
       this.props.initFormValues({
         ...props,
         logo: bufferToImage(logo),
-        relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
+        relatedAnimes: relatedAnimes.map(item => ({ label: item.title, value: item.title })),
       });
     }
   }
@@ -73,9 +73,7 @@ class AnimeForm extends Component {
       renderFileInput,
       renderList,
       formValues,
-      renderDatePicker,
       renderTextField,
-      renderDropDown,
     } = this.props;
 
     const styles = {
@@ -85,6 +83,9 @@ class AnimeForm extends Component {
       },
       media: {
         objectFit: 'cover',
+      },
+      listStyle: {
+        marignTop: 15,
       },
     };
 
@@ -107,9 +108,15 @@ class AnimeForm extends Component {
         </FormGroup>
         <Field name="review" component={renderQuill} />
         <FormGroup>
-          <FieldArray name="relatedAnimes" component={renderList} />
+          <Field
+            label="Animes"
+            name="relatedAnimes"
+            type="animes"
+            component={renderList}
+            style={styles.listStyle}
+          />
         </FormGroup>
-        <Button variant="contained" type="submit">
+        <Button style={{ marginTop: 15 }} variant="contained" type="submit">
           Submit
         </Button>
       </form>
