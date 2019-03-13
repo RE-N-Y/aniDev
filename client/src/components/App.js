@@ -25,6 +25,7 @@ class App extends Component {
       palette: {
         primary: {
           main: '#1A237E',
+          light: '#8790e6',
         },
         secondary: {
           main: '#FFEB3B',
@@ -46,6 +47,23 @@ class App extends Component {
         h6: { fontStyle: 'medium' },
         body1: { fontStyle: 'regular' },
         body2: { fontStyle: 'regular' },
+      },
+      overrides: {
+        MuiPickersToolbar: {
+          toolbar: {
+            backgroundColor: '#8790e6',
+          },
+        },
+        MuiPickersDay: {
+          isSelected: {
+            backgroundColor: '#8790e6',
+          },
+        },
+        MuiPickersModal: {
+          dialogAction: {
+            color: '#ffffff',
+          },
+        },
       },
     });
 

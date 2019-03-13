@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, FieldArray, getFormValues } from 'redux-form';
+import { Field, getFormValues } from 'redux-form';
 import axios from 'axios';
 import {
-  Button,
-  FormGroup,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  MenuItem,
+  Button, FormGroup, Card, CardContent, CardMedia, Typography,
 } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import form from '../extensions/form';
 import * as actions from '../../actions';
 import { bufferToImage } from '../extensions/Util';
 import { errorImage } from '../../resources/errorImage';
+
+const style = theme => ({
+  cssFocused: {},
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${theme.palette.primary.light} !important`,
+  },
+  cssLabel: {
+    color: `${theme.palette.primary.light} !important`,
+  },
+});
 
 class AnimeForm extends Component {
   async componentWillMount() {
@@ -31,15 +37,16 @@ class AnimeForm extends Component {
           ...props
         },
       } = await axios.get(`http://localhost:5000/animes/${this.props.match.params.id}`);
+      console.log();
       this.props.initFormValues({
         ...props,
         mainImage: bufferToImage(mainImage),
         thumbnail: bufferToImage(thumbnail),
         startedAiring: new Date(startedAiring).toISOString().split('T')[0],
         finishedAiring: new Date(startedAiring).toISOString().split('T')[0],
-        relatedAnimes: relatedAnimes.map(item => ({ content: item.title })),
-        relatedCharacters: relatedCharacters.map(item => ({ content: item.name })),
-        relatedStudios: relatedStudios.map(item => ({ content: item.name })),
+        relatedAnimes: relatedAnimes.map(item => ({ label: item.title, value: item.title })),
+        relatedCharacters: relatedCharacters.map(item => ({ label: item.name, value: item.name })),
+        relatedStudios: relatedStudios.map(item => ({ label: item.name, value: item.name })),
       });
     }
   }
@@ -106,6 +113,7 @@ class AnimeForm extends Component {
       formValues,
       renderDatePicker,
       renderTextField,
+      classes,
     } = this.props;
 
     const styles = {
@@ -117,10 +125,27 @@ class AnimeForm extends Component {
         objectFit: 'cover',
       },
     };
-
+    const inputStyle = {
+      classes: {
+        focused: classes.cssFocused,
+        notchedOutline: classes.notchedOutline,
+      },
+    };
+    const inputLabelStyle = {
+      classes: {
+        root: classes.cssLabel,
+        focused: classes.cssFocused,
+      },
+    };
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field name="title" component={renderTextField} label="Title" />
+        <Field
+          name="title"
+          component={renderTextField}
+          label="Title"
+          InputLabelProps={inputLabelStyle}
+          InputProps={inputStyle}
+        />
         <Field
           name="rating"
           type="number"
@@ -162,12 +187,17 @@ class AnimeForm extends Component {
           <Field name="finishedAiring" component={renderDatePicker} />
         </FormGroup>
         <FormGroup>
-          <FieldArray name="genres" type="genres" component={renderList} />
-          <FieldArray name="relatedAnimes" type="animes" component={renderList} />
-          <FieldArray name="relatedCharacters" type="characters" component={renderList} />
-          <FieldArray name="relatedStudios" type="studios" component={renderList} />
+          <Field label="Genres" name="genres" type="genres" component={renderList} />
+          <Field label="Animes" name="relatedAnimes" type="animes" component={renderList} />
+          <Field
+            label="Characters"
+            name="relatedCharacters"
+            type="characters"
+            component={renderList}
+          />
+          <Field label="Studios" name="relatedStudios" type="studios" component={renderList} />
         </FormGroup>
-        <Button variant="contained" type="submit">
+        <Button style={{ marginTop: 15 }} variant="contained" type="submit">
           Submit
         </Button>
       </form>
@@ -180,7 +210,9 @@ const mapStateToProps = state => ({
   formValues: getFormValues('animeForm')(state),
 });
 
-export default connect(
-  mapStateToProps,
-  actions,
-)(form(AnimeForm, 'animeForm'));
+export default withStyles(style)(
+  connect(
+    mapStateToProps,
+    actions,
+  )(form(AnimeForm, 'animeForm')),
+);

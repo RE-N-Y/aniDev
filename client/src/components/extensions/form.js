@@ -8,6 +8,9 @@ import axios from 'axios';
 import {
   TextField, MenuItem, Button, Typography, Chip, Paper,
 } from '@material-ui/core/';
+import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 import { withStyles } from '@material-ui/core/styles';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import classNames from 'classnames';
@@ -92,7 +95,7 @@ export default (ChildComponent, formName) => {
       />
     );
 
-    renderList = ({ fields, type, label }) => {
+    renderList = ({input, type, label }) => {
       const getSuggestions = async (inputValue) => {
         if (type === 'genres') {
           return new Promise((resolve) => {
@@ -105,18 +108,18 @@ export default (ChildComponent, formName) => {
       const inputComponent = ({ inputRef, ...props }) => <div ref={inputRef} {...props} />;
       const Control = props => (
         <TextField
-      fullWidth
-      InputProps={{
-        inputComponent,
-        inputProps: {
-          className: props.selectProps.classes.input,
-          inputRef: props.innerRef,
-          children: props.children,
-          ...props.innerProps,
-        },
-      }}
-      {...props.selectProps.textFieldProps}
-    />
+          fullWidth
+          InputProps={{
+            inputComponent,
+            inputProps: {
+              className: props.selectProps.classes.input,
+              inputRef: props.innerRef,
+              children: props.children,
+              ...props.innerProps,
+            },
+          }}
+          {...props.selectProps.textFieldProps}
+        />
       );
       const Option = props => (
         <MenuItem
@@ -217,12 +220,9 @@ export default (ChildComponent, formName) => {
             }}
             components={components}
             placeholder={`Select Multiple ${label}`}
-            onChange={(newValue) => {
-              fields.removeAll();
-              newValue.forEach(({ value }) => {
-                fields.push({ content: value });
-              });
-            }}
+            value={input.value}
+            onChange={(value) => input.onChange(value)}
+            onBlur={(value) => input.onBlur(value)}
           />
       );
     };
@@ -235,6 +235,7 @@ export default (ChildComponent, formName) => {
       InputLabelProps,
       InputProps,
       placeholder,
+      multiline
     }) => (
       <TextField
         label={label}
@@ -245,6 +246,7 @@ export default (ChildComponent, formName) => {
         margin="normal"
         placeholder={placeholder}
         fullWidth
+        multiline={multiline}
         {...input}
       />
     );
@@ -271,7 +273,7 @@ export default (ChildComponent, formName) => {
       </Button>
     );
 
-    renderDatePicker = ({ input }) => <TextField type="date" {...input} />;
+    renderDatePicker = ({ input }) => <MuiPickersUtilsProvider utils={DateFnsUtils}><DatePicker {...input}/></MuiPickersUtilsProvider>;
 
     renderDropDown = ({ input, children }) => <TextField select {...input} children={children} />;
 
