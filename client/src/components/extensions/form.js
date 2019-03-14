@@ -24,6 +24,7 @@ const style = theme => ({
   input: {
     display: 'flex',
     padding: 0,
+    color: '#FFFFFF'
   },
   valueContainer: {
     display: 'flex',
@@ -197,6 +198,7 @@ export default (ChildComponent, formName) => {
       const selectStyles = {
         input: base => ({
           ...base,
+          color:'#FFFFFF',
           '& input': {
             font: 'inherit',
           },

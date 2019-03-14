@@ -16,6 +16,10 @@ const animeSchema = new Schema({
   relatedCharacters: [{ type: mongoose.Schema.ObjectId, ref: 'characters' }],
   relatedAnimes: [{ type: mongoose.Schema.ObjectId, ref: 'animes' }],
   relatedStudios: [{ type: mongoose.Schema.ObjectId, ref: 'studios' }],
+  story: { type: Number, default: 0 },
+  art: { type: Number, default: 0 },
+  character: { type: Number, default: 0 },
+  music: { type: Number, default: 0 },
 });
 
 mongoose.model('animes', animeSchema);

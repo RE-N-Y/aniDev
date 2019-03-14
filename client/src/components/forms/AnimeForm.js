@@ -163,6 +163,12 @@ class AnimeForm extends Component {
           placeholder="ratings"
         />
         <FormGroup row>
+          <Field name="story" label="Story" component={renderTextField} step="1" placeholder="Story" type="number"/>
+          <Field name="art" label="Art" component={renderTextField} step="1" placeholder="Art" type="number"/>
+          <Field name="character" label="Character" component={renderTextField} step="1" placeholder="Character" type="number"/>
+          <Field name="music" label="Music" component={renderTextField} step="1" placeholder="Music" type="number"/>
+        </FormGroup>
+        <FormGroup row>
           <Card style={styles.card}>
             <CardMedia
               style={styles.media}
