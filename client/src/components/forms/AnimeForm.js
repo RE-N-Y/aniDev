@@ -38,7 +38,7 @@ class AnimeForm extends Component {
           ...props
         },
       } = await axios.get(`http://localhost:5000/animes/${this.props.match.params.id}`);
-      console.log();
+
       this.props.initFormValues({
         ...props,
         mainImage: bufferToImage(mainImage),

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Typography, Card, CardMedia } from '@material-ui/core/';
+import {
+  Typography, Card, CardMedia, Avatar, CardHeader,
+} from '@material-ui/core/';
 import {
   Star, StarHalf, Create, Brush, PermIdentity, Audiotrack,
 } from '@material-ui/icons';
@@ -64,12 +66,22 @@ class Anime extends Component {
         width: 265,
         margin: 15,
       },
+      thumbnail: {
+        maxHeight: 350,
+        width: 170,
+        margin: 5,
+      },
       media: {
         objectFit: 'cover',
       },
       stars: {
         display: 'flex',
         color: '#FDD835',
+      },
+      avatar: {
+        margin: 10,
+        width: 80,
+        height: 80,
       },
     };
 
@@ -147,14 +159,34 @@ class Anime extends Component {
             dangerouslySetInnerHTML={{ __html: review }}
           />
         </ReadMore>
+        <div>
+          {relatedCharacters.map((item, index) => (
+            <div key={index}>
+              <Typography>{item.name}</Typography>
+              <Avatar style={styles.avatar} src={bufferToImage(item.thumbnail)} />
+            </div>
+          ))}
+        </div>
+        <div>
+          {relatedAnimes.map((item, index) => (
+            <div>
+              <Card key={index} raised style={styles.thumbnail}>
+                <CardMedia
+                  style={styles.media}
+                  component="img"
+                  width="140"
+                  src={bufferToImage(item.thumbnail)}
+                />
+              </Card>
+              <Typography variant="subtitle2">{item.title}</Typography>
+            </div>
+          ))}
+        </div>
         <p>{startedAiring.substring(0, 10)}</p>
         <p>{finishedAiring.substring(0, 10)}</p>
         <p>{`likes: ${likes}`}</p>
         {relatedAnimes.map((item, index) => (
           <li key={index}>{item.title}</li>
-        ))}
-        {relatedCharacters.map((item, index) => (
-          <li key={index}>{item.name}</li>
         ))}
       </div>
     );
