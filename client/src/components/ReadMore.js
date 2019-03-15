@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Typography, Button } from '@material-ui/core';
+import { Collapse, Button } from '@material-ui/core';
 
 class ReadMore extends Component {
   constructor(props) {

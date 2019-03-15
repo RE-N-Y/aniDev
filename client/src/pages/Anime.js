@@ -5,9 +5,14 @@ import {
   Typography, Card, CardMedia, Avatar,
 } from '@material-ui/core/';
 import {
-  Star, StarHalf, Create, Brush, PermIdentity, Audiotrack,
+  Star,
+  StarHalf,
+  Create,
+  Brush,
+  PermIdentity,
+  Audiotrack,
+  Favorite,
 } from '@material-ui/icons';
-import { Link } from 'react-router-dom'; 
 import { bufferToImage } from '../components/extensions/Util';
 import ReadMore from '../components/ReadMore';
 
@@ -63,12 +68,13 @@ class Anime extends Component {
         flexDirection: 'column',
       },
       container: {
-        display: 'flex'
+        display: 'flex',
       },
       card: {
         maxHeight: 430,
         width: 265,
         margin: 15,
+        marginTop: -150,
       },
       thumbnail: {
         maxHeight: 350,
@@ -91,7 +97,7 @@ class Anime extends Component {
         height: 80,
       },
       normalMargin: {
-        margin:10,
+        margin: 10,
       },
       smallMargin: {
         marginRight: 5,
@@ -99,8 +105,11 @@ class Anime extends Component {
       horizontalCenter: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
-      }
+        alignItems: 'center',
+      },
+      reviewStyle: {
+        marginBottom: -10,
+      },
     };
 
     const numStar = rating ? Math.floor(rating / 2) : 0;
@@ -118,74 +127,97 @@ class Anime extends Component {
             />
           </Card>
           <div>
-            <Typography variant="h5" style={styles.normalMargin}>{title}</Typography>
-            <div style={styles.container}>
-              <div style={styles.normalMargin}>
-                <div style={styles.stars}>
-                  <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>{rating}</Typography>
-                  {[...Array(numStar)].map((value, index) => (
-                    <Star key={index} />
-                  ))}
-                  {rating / 2 - numStar < 0.5 ? null : <StarHalf />}
+            <Typography variant="h5" style={styles.normalMargin}>
+              {title}
+            </Typography>
+            <div>
+              <div style={styles.container}>
+                <div style={styles.normalMargin}>
+                  <div style={styles.stars}>
+                    <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>
+                      {rating}
+                    </Typography>
+                    {[...Array(numStar)].map((value, index) => (
+                      <Star key={index} />
+                    ))}
+                    {rating / 2 - numStar < 0.5 ? null : <StarHalf />}
+                  </div>
+                  <Typography variant="subtitle2">Rating</Typography>
                 </div>
-                <Typography variant="subtitle2">Rating</Typography>
-              </div>
-              <div style={styles.normalMargin}>
-                {relatedStudios.map((item, index) => (
-                  <Typography key={index} color="secondary" variant="subtitle1">
-                    {item.name}
-                  </Typography>
-                ))}
-                <Typography variant="subtitle2">Studios</Typography>
+                <div style={styles.normalMargin}>
+                  {relatedStudios.map((item, index) => (
+                    <Typography key={index} color="secondary" variant="subtitle1">
+                      {item.name}
+                    </Typography>
+                  ))}
+                  <Typography variant="subtitle2">Studios</Typography>
+                </div>
+                <div style={styles.container}>
+                  <div style={{ ...styles.normalMargin, ...styles.horizontalCenter }}>
+                    <div style={styles.container}>
+                      <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>
+                        {story}
+                      </Typography>
+                      <Create color="secondary" />
+                    </div>
+                    <Typography variant="subtitle2">Story</Typography>
+                  </div>
+                  <div style={{ ...styles.normalMargin, ...styles.horizontalCenter }}>
+                    <div style={styles.container}>
+                      <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>
+                        {art}
+                      </Typography>
+                      <Brush color="secondary" />
+                    </div>
+                    <Typography variant="subtitle2">Art</Typography>
+                  </div>
+                  <div style={{ ...styles.normalMargin, ...styles.horizontalCenter }}>
+                    <div style={styles.container}>
+                      <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>
+                        {character}
+                      </Typography>
+                      <PermIdentity color="secondary" />
+                    </div>
+                    <Typography variant="subtitle2">Character</Typography>
+                  </div>
+                  <div style={{ ...styles.normalMargin, ...styles.horizontalCenter }}>
+                    <div style={styles.container}>
+                      <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>
+                        {music}
+                      </Typography>
+                      <Audiotrack color="secondary" />
+                    </div>
+                    <Typography variant="subtitle2">Music</Typography>
+                  </div>
+                </div>
               </div>
               <div style={styles.container}>
-                <div style={{...styles.normalMargin,...styles.horizontalCenter}}>
+                <div style={styles.normalMargin}>
                   <div style={styles.container}>
-                    <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>{story}</Typography>
-                    <Create color="secondary" />
+                    <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>
+                      {likes}
+                    </Typography>
+                    <Favorite color="secondary" />
                   </div>
-                    <Typography variant="subtitle2">Story</Typography>
+                  <Typography variant="subtitle2">Likes</Typography>
                 </div>
-                <div style={{...styles.normalMargin,...styles.horizontalCenter}}>
-                  <div style={styles.container}>
-                    <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>{art}</Typography>
-                    <Brush color="secondary" />
-                  </div>
-                    <Typography variant="subtitle2">Art</Typography>
+                <div style={styles.normalMargin}>
+                  {genres.map((item, index) => (
+                    <Typography key={index} color="secondary" variant="subtitle1">
+                      {item}
+                    </Typography>
+                  ))}
+                  <Typography variant="subtitle2">Genres</Typography>
                 </div>
-                <div style={{...styles.normalMargin,...styles.horizontalCenter}}>
-                  <div style={styles.container}>
-                    <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>{character}</Typography>
-                    <PermIdentity color="secondary" />
-                  </div>
-                    <Typography variant="subtitle2">Character</Typography>
-                </div>
-                <div style={{...styles.normalMargin,...styles.horizontalCenter}}>
-                  <div style={styles.container}>
-                    <Typography color="secondary" variant="subtitle1" style={styles.smallMargin}>{music}</Typography>
-                    <Audiotrack color="secondary" />
-                  </div>
-                    <Typography variant="subtitle2">Music</Typography>
-                </div>
-              </div>
-              <div style={styles.normalMargin}>
-                {genres.map((item, index) => (
-                  <Typography key={index} color="secondary" variant="subtitle1">
-                    {item}
-                  </Typography>
-                ))}
-                <Typography variant="subtitle2">Genres</Typography>
-              </div>
-              <div style={{...styles.normalMargin,...styles.container}}>
-                <div style={styles.smallMargin}>
+                <div style={styles.normalMargin}>
                   <Typography variant="subtitle1" color="secondary">
-                    {startedAiring ? startedAiring.substring(0,10) : startedAiring}
+                    {startedAiring ? startedAiring.substring(0, 10) : startedAiring}
                   </Typography>
                   <Typography variant="subtitle2">Started Airing</Typography>
                 </div>
-                <div>
+                <div style={styles.normalMargin}>
                   <Typography variant="subtitle1" color="secondary">
-                    {finishedAiring ? finishedAiring.substring(0,10) : finishedAiring}
+                    {finishedAiring ? finishedAiring.substring(0, 10) : finishedAiring}
                   </Typography>
                   <Typography variant="subtitle2">Finished Airing</Typography>
                 </div>
@@ -195,11 +227,13 @@ class Anime extends Component {
         </div>
         <div>
           <Typography variant="title">Synopsis</Typography>
-          <Typography variant="body1">{synopsis}</Typography>
+          <Typography variant="body2">{synopsis}</Typography>
         </div>
         <div>
-          <Typography variant="title">Review</Typography>
-          <ReadMore collapsed={70}>
+          <Typography variant="title" style={styles.reviewStyle}>
+            Review
+          </Typography>
+          <ReadMore collapsed={75}>
             <div
               style={{ color: '#fff', fontFamily: 'Rubik' }}
               dangerouslySetInnerHTML={{ __html: review }}
@@ -208,15 +242,15 @@ class Anime extends Component {
         </div>
         <div style={styles.container}>
           {relatedCharacters.map((item, index) => (
-            <Link key={index} to={`localhost:3000/characters/${item._id}`} style={styles.noDeco}>
+            <a key={index} href={`localhost:3000/characters/${item._id}`} style={styles.noDeco}>
               <Typography>{item.name}</Typography>
               <Avatar style={styles.avatar} src={bufferToImage(item.thumbnail)} />
-            </Link>
+            </a>
           ))}
         </div>
         <div style={styles.container}>
           {relatedAnimes.map((item, index) => (
-            <Link key={index} to={`localhost:3000/animes/${item._id}`} style={styles.noDeco}>
+            <a key={index} href={`localhost:3000/animes/${item._id}`} style={styles.noDeco}>
               <Card key={index} raised style={styles.thumbnail}>
                 <CardMedia
                   style={styles.media}
@@ -226,7 +260,7 @@ class Anime extends Component {
                 />
               </Card>
               <Typography variant="subtitle2">{item.title}</Typography>
-            </Link>
+            </a>
           ))}
         </div>
       </div>
