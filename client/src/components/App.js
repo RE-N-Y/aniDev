@@ -47,6 +47,8 @@ class App extends Component {
         h6: { fontStyle: 'medium' },
         body1: { fontStyle: 'regular' },
         body2: { fontStyle: 'regular' },
+        subtitle1: { fontStyle: 'medium' },
+        subtitle2: { fontStyle: 'medium' }
       },
       overrides: {
         MuiPickersToolbar: {
