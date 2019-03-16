@@ -26,8 +26,12 @@ module.exports = (app) => {
     res.redirect('http://localhost:3000/');
   });
   app.get('/profile', (req, res) => {
-    const { id, access, username } = req.user;
-    res.send({ id, access, username });
+    const {
+      id, access, username, favoriteAnimes, favoriteCharacters,
+    } = req.user;
+    res.send({
+      id, access, username, favoriteAnimes, favoriteCharacters,
+    });
   });
 
   app.post('/forgot', (req, res, next) => {

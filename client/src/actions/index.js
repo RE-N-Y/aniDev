@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  AUTH_USER, AUTH_ERROR, POST_ERROR, INIT_FORM, RESET_ERROR,
+  AUTH_USER, AUTH_ERROR, POST_ERROR, INIT_FORM, RESET_ERROR, USER_ERROR,
 } from './types';
 
 export const signupUser = (formProps, callback) => async (dispatch) => {
@@ -96,5 +96,17 @@ export const resetPassword = (formProps, token, callback) => async (dispatch) =>
     callback();
   } catch (e) {
     dispatch({ type: RESET_ERROR, payload: 'reset error' });
+  }
+};
+
+export const updateFavorite = (type, id, action) => async (dispatch) => {
+  try {
+    const command = action === 'add' ? '$addToSet' : '$pull';
+    await axios(`http://localhost:5000/favorite/${type}/${id}/${command}`, {
+      method: 'post',
+      withCredentials: true,
+    });
+  } catch (e) {
+    dispatch({ type: USER_ERROR, payload: 'user error' });
   }
 };

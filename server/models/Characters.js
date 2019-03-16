@@ -7,6 +7,7 @@ const characterSchema = new Schema({
   likes: { type: Number, default: 0 },
   description: String,
   thumbnail: Buffer,
+  role: { type: String, enum: ['main', 'supporting'] },
   relatedCharacters: [{ type: mongoose.Schema.ObjectId, ref: 'characters' }],
   relatedAnimes: [{ type: mongoose.Schema.ObjectId, ref: 'animes' }],
 });

@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
 const AdminAccess = require('./../controllers/auth').requireAccess(['admin']);
 const CommonController = require('./../controllers/common');
+
+const User = mongoose.model('users');
 
 module.exports = (app) => {
   app.get('/users/pages/:nPage', AdminAccess, CommonController.getList('users'));
@@ -15,4 +18,27 @@ module.exports = (app) => {
     CommonController.updateById('users'),
   );
   app.get('/users/:id', CommonController.getById('users'));
+
+  app.post('/favorite/:type/:id/:action', async (req, res) => {
+    const { type, id, action } = req.params;
+    if (type === 'animes') {
+      await User.findByIdAndUpdate(req.user.id, { [action]: { favoriteAnimes: id } }, (err) => {
+        if (err) {
+          res.send('Error occured in updating field');
+        } else {
+          res.send('Successfully updated favoriteAnimes');
+        }
+      });
+    } else if (type === 'characters') {
+      await User.findByIdAndUpdate(req.user.id, { [action]: { favoriteCharacters: id } }, (err) => {
+        if (err) {
+          res.send('Error occured in updating field');
+        } else {
+          res.send('Successfully updated favoriteCharacters');
+        }
+      });
+    } else {
+      res.send('Invalid type');
+    }
+  });
 };

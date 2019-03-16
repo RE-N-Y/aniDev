@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const postSchema = new Schema({
   title: String,
   content: String,
+  mainImage: Buffer,
   author: { type: mongoose.Schema.ObjectId, ref: 'users' },
   written: { type: Date, default: Date.now },
   views: { type: Number, default: 0 },

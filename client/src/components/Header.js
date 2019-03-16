@@ -41,7 +41,7 @@ class Header extends Component {
         <Drawer variant="permanent" classes={{ paper: drawer }}>
           <img alt="logo" src={Logo} className={logo} />
           <Link className={noDeco} to="/">
-            <Typography align="center" variant="h4" color="textSecondary">
+            <Typography align="center" variant="h4" style={{ color: '#000000' }}>
               ANIPIN
             </Typography>
           </Link>
@@ -51,7 +51,7 @@ class Header extends Component {
                 <AccountBoxOutlined className={black} />
               </ListItemIcon>
               <Link className={noDeco} to="/signup">
-                <Typography align="center" variant="subtitle1" color="textSecondary">
+                <Typography align="center" variant="subtitle1" style={{ color: '#000000' }}>
                   SIGN UP
                 </Typography>
               </Link>
@@ -61,7 +61,7 @@ class Header extends Component {
                 <AccountBoxOutlined className={black} />
               </ListItemIcon>
               <Link className={noDeco} to="/signin">
-                <Typography align="center" variant="subtitle1" color="textSecondary">
+                <Typography align="center" variant="subtitle1" style={{ color: '#000000' }}>
                   SIGN IN
                 </Typography>
               </Link>
@@ -71,7 +71,7 @@ class Header extends Component {
                 <AccountBoxOutlined className={black} />
               </ListItemIcon>
               <a className={noDeco} href="http://localhost:5000/logout">
-                <Typography align="center" variant="subtitle1" color="textSecondary">
+                <Typography align="center" variant="subtitle1" style={{ color: '#000000' }}>
                   LOG OUT
                 </Typography>
               </a>
@@ -81,7 +81,7 @@ class Header extends Component {
                 <AccountBoxOutlined className={black} />
               </ListItemIcon>
               <Link className={noDeco} to="/profile">
-                <Typography align="center" variant="subtitle1" color="textSecondary">
+                <Typography align="center" variant="subtitle1" style={{ color: '#000000' }}>
                   PROFILE
                 </Typography>
               </Link>
@@ -91,7 +91,7 @@ class Header extends Component {
                 <AccountBoxOutlined className={black} />
               </ListItemIcon>
               <Link className={noDeco} to="/admin">
-                <Typography align="center" variant="subtitle1" color="textSecondary">
+                <Typography align="center" variant="subtitle1" style={{ color: '#000000' }}>
                   ADMIN
                 </Typography>
               </Link>

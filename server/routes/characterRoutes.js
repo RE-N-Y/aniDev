@@ -27,7 +27,7 @@ module.exports = (app) => {
       res.send('Character successfully registed');
     });
   });
-  app.get('/characters/:id', CommonController.getFullDocById('characters', ['name', 'title']));
+  app.get('/characters/:id', CommonController.getFullDocById('characters', ['name']));
   app.put(
     '/characters/:id',
     EditorAccess,

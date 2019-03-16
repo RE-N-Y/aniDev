@@ -13,11 +13,13 @@ const userSchema = new Schema({
     sparse: true,
     trim: true,
   },
+  favoriteAnimes: [{ type: mongoose.Schema.ObjectId, ref: 'animes' }],
+  favoriteCharacters: [{ type: mongoose.Schema.ObjectId, ref: 'characters' }],
   googleId: { type: String, unique: true, sparse: true },
   password: String,
   access: String,
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
 });
 
 userSchema.pre('save', function (next) {

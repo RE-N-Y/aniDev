@@ -24,7 +24,7 @@ const style = theme => ({
   input: {
     display: 'flex',
     padding: 0,
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   valueContainer: {
     display: 'flex',
@@ -96,12 +96,15 @@ export default (ChildComponent, formName) => {
       />
     );
 
-    renderList = ({input, type, label }) => {
+    renderList = ({ input, type, label }) => {
       const getSuggestions = async (inputValue) => {
         if (type === 'genres') {
           return new Promise((resolve) => {
-
-            resolve(genreList.filter((str)=>{return str.includes(inputValue)}).map(value => ({ label: value, value })));
+            resolve(
+              genreList
+                .filter(str => str.includes(inputValue))
+                .map(value => ({ label: value, value })),
+            );
           });
         }
         const response = await axios.get(`http://localhost:5000/${type}/search/${inputValue}`);
@@ -125,61 +128,51 @@ export default (ChildComponent, formName) => {
       );
       const Option = props => (
         <MenuItem
-      buttonRef={props.innerRef}
-      selected={props.isFocused}
-      component="div"
-      style={{
-        fontWeight: props.isSelected ? 500 : 400,
-      }}
-      {...props.innerProps}
-    >
-      {props.children}
-    </MenuItem>
+          buttonRef={props.innerRef}
+          selected={props.isFocused}
+          component="div"
+          style={{
+            fontWeight: props.isSelected ? 500 : 400,
+          }}
+          {...props.innerProps}
+        >
+          {props.children}
+        </MenuItem>
       );
-      const Message = (props) => {
-        return (
-          <Typography
-            className={props.selectProps.classes.message}
-            {...props.innerProps}
-          >
-            {props.children}
-          </Typography>
-        );
-      }
+      const Message = props => (
+        <Typography className={props.selectProps.classes.message} {...props.innerProps}>
+          {props.children}
+        </Typography>
+      );
       const Placeholder = props => (
-        <Typography
-      className={props.selectProps.classes.placeholder}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
+        <Typography className={props.selectProps.classes.placeholder} {...props.innerProps}>
+          {props.children}
+        </Typography>
       );
 
-      const SingleValue = (props) => {
-        return (
-          <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
-            {props.children}
-          </Typography>
-        );
-      }
+      const SingleValue = props => (
+        <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
+          {props.children}
+        </Typography>
+      );
       const ValueContainer = props => (
         <div className={props.selectProps.classes.valueContainer}>{props.children}</div>
       );
       const MultiValue = props => (
         <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={classNames(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused,
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelOutlined {...props.removeProps} />}
-    />
+          tabIndex={-1}
+          label={props.children}
+          className={classNames(props.selectProps.classes.chip, {
+            [props.selectProps.classes.chipFocused]: props.isFocused,
+          })}
+          onDelete={props.removeProps.onClick}
+          deleteIcon={<CancelOutlined {...props.removeProps} />}
+        />
       );
       const Menu = props => (
-          <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
-            {props.children}
-          </Paper>
+        <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
+          {props.children}
+        </Paper>
       );
       const components = {
         Control,
@@ -189,8 +182,8 @@ export default (ChildComponent, formName) => {
         Placeholder,
         SingleValue,
         ValueContainer,
-        NoOptionsMessage:Message,
-        LoadingMessage:Message
+        NoOptionsMessage: Message,
+        LoadingMessage: Message,
       };
 
       const { classes } = this.props;
@@ -198,35 +191,35 @@ export default (ChildComponent, formName) => {
       const selectStyles = {
         input: base => ({
           ...base,
-          color:'#FFFFFF',
+          color: '#FFFFFF',
           '& input': {
             font: 'inherit',
           },
         }),
       };
-  
+
       return (
-          <AsyncSelect
-            loadOptions={getSuggestions}
-            isMulti
-            type={type}
-            cacheOptions
-            defaultOptions
-            styles={selectStyles}
-            noResultsText={<Typography>No results found</Typography>}
-            classes={classes}
-            textFieldProps={{
-              label,
-              InputLabelProps: {
-                shrink: true,
-              },
-            }}
-            components={components}
-            placeholder={`Select Multiple ${label}`}
-            value={input.value}
-            onChange={(value) => input.onChange(value)}
-            onBlur={(value) => input.onBlur(value)}
-          />
+        <AsyncSelect
+          loadOptions={getSuggestions}
+          isMulti
+          type={type}
+          cacheOptions
+          defaultOptions
+          styles={selectStyles}
+          noResultsText={<Typography>No results found</Typography>}
+          classes={classes}
+          textFieldProps={{
+            label,
+            InputLabelProps: {
+              shrink: true,
+            },
+          }}
+          components={components}
+          placeholder={`Select Multiple ${label}`}
+          value={input.value}
+          onChange={value => input.onChange(value)}
+          onBlur={value => input.onBlur(value)}
+        />
       );
     };
 
@@ -238,7 +231,7 @@ export default (ChildComponent, formName) => {
       InputLabelProps,
       InputProps,
       placeholder,
-      multiline
+      multiline,
     }) => (
       <TextField
         label={label}
@@ -276,7 +269,11 @@ export default (ChildComponent, formName) => {
       </Button>
     );
 
-    renderDatePicker = ({ input }) => <MuiPickersUtilsProvider utils={DateFnsUtils}><DatePicker {...input}/></MuiPickersUtilsProvider>;
+    renderDatePicker = ({ input }) => (
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <DatePicker {...input} />
+      </MuiPickersUtilsProvider>
+    );
 
     renderDropDown = ({ input, children }) => <TextField select {...input} children={children} />;
 
@@ -311,11 +308,11 @@ export default (ChildComponent, formName) => {
   }
 
   return compose(
-      withStyles(style,{withTheme:true}),
-      connect(
-        null,
-        actions,
-      ),
-      reduxForm({ form: formName, enableReinitialize: true }),
-    )(ComposedComponent);
+    withStyles(style, { withTheme: true }),
+    connect(
+      null,
+      actions,
+    ),
+    reduxForm({ form: formName, enableReinitialize: true }),
+  )(ComposedComponent);
 };

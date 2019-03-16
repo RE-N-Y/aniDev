@@ -10,7 +10,6 @@ import * as actions from '../actions';
 const styles = theme => ({
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
     marginLeft: 290,
   },
 });
@@ -33,7 +32,8 @@ class App extends Component {
         background: { default: '#04072D' },
         type: 'dark',
         text: {
-          secondary: '#000000',
+          primary: '#FFFFFF',
+          secondary: 'rgba(255,255,255,0.6)',
         },
       },
       typography: {
@@ -46,9 +46,9 @@ class App extends Component {
         h5: { fontStyle: 'medium' },
         h6: { fontStyle: 'medium' },
         body1: { fontStyle: 'regular' },
-        body2: { fontStyle: 'regular' },
+        body2: { fontStyle: 'regular', fontSize: '1em' },
         subtitle1: { fontStyle: 'medium' },
-        subtitle2: { fontStyle: 'medium' }
+        subtitle2: { fontStyle: 'medium' },
       },
       overrides: {
         MuiPickersToolbar: {

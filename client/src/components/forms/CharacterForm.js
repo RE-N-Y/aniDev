@@ -3,7 +3,13 @@ import { Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
-  Button, FormGroup, Card, CardContent, CardMedia, Typography,
+  Button,
+  FormGroup,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  MenuItem,
 } from '@material-ui/core';
 import form from '../extensions/form';
 import * as actions from '../../actions';
@@ -81,6 +87,7 @@ class CharacterForm extends Component {
       renderList,
       formValues,
       renderTextField,
+      renderDropDown,
     } = this.props;
 
     const styles = {
@@ -126,6 +133,10 @@ class CharacterForm extends Component {
             component={renderList}
             style={styles.listStyle}
           />
+          <Field lable="Role" name="role" component={renderDropDown}>
+            <MenuItem value="main">Main Character</MenuItem>
+            <MenuItem value="supporting">Supporting Character</MenuItem>
+          </Field>
         </FormGroup>
         <Button style={{ marginTop: 15 }} variant="contained" type="submit">
           Submit
