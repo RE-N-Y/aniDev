@@ -96,7 +96,7 @@ export default (ChildComponent, formName) => {
       />
     );
 
-    renderList = ({ input, type, label }) => {
+    renderList = ({ input, type, label, isMulti }) => {
       const getSuggestions = async (inputValue) => {
         if (type === 'genres') {
           return new Promise((resolve) => {
@@ -201,7 +201,7 @@ export default (ChildComponent, formName) => {
       return (
         <AsyncSelect
           loadOptions={getSuggestions}
-          isMulti
+          isMulti={isMulti}
           type={type}
           cacheOptions
           defaultOptions

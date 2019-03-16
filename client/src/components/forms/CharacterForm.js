@@ -124,6 +124,7 @@ class CharacterForm extends Component {
             name="relatedAnimes"
             type="animes"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
           <Field
@@ -131,6 +132,7 @@ class CharacterForm extends Component {
             name="relatedCharacters"
             type="characters"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
           <Field lable="Role" name="role" component={renderDropDown}>

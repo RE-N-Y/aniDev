@@ -13,6 +13,8 @@ module.exports = (app) => {
     await new Post({ title, content, author: req.user.id }).save();
     res.send('Successfully posted');
   });
+  app.get('/posts/all', CommonController.getAll('posts'));
+  app.get('/posts/search/:search', CommonController.search('posts'));
   app.get('/posts/:id', CommonController.getById('posts'));
   app.put(
     '/posts/:id',

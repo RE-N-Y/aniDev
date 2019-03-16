@@ -4,6 +4,7 @@ import CharacterForm from '../components/forms/CharacterForm';
 import PostForm from '../components/forms/PostForm';
 import UserForm from '../components/forms/UserForm';
 import StudioForm from '../components/forms/StudioForm';
+import SettingForm from '../components/forms/SettingForm';
 
 const Form = (model, type) => (props) => {
   if (model === 'animeForm') {
@@ -38,6 +39,13 @@ const Form = (model, type) => (props) => {
     return (
       <div style={{ padding: 15 }}>
         <StudioForm {...props} requestType={type} />
+      </div>
+    );
+  }
+  if (model === 'settingForm') {
+    return (
+      <div style={{ padding: 15 }}>
+        <SettingForm {...props} />
       </div>
     );
   }

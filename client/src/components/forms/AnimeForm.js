@@ -213,6 +213,7 @@ class AnimeForm extends Component {
             name="genres"
             type="genres"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
           <Field
@@ -220,6 +221,7 @@ class AnimeForm extends Component {
             name="relatedAnimes"
             type="animes"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
           <Field
@@ -227,6 +229,7 @@ class AnimeForm extends Component {
             name="relatedCharacters"
             type="characters"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
           <Field
@@ -234,6 +237,7 @@ class AnimeForm extends Component {
             name="relatedStudios"
             type="studios"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
         </FormGroup>

@@ -113,6 +113,7 @@ class AnimeForm extends Component {
             name="relatedAnimes"
             type="animes"
             component={renderList}
+            isMulti
             style={styles.listStyle}
           />
         </FormGroup>

@@ -62,7 +62,7 @@ exports.getAll = (model) => {
 exports.search = (model) => {
   const middleware = (req, res) => {
     const DB = chooseModel(model);
-    const name = model === 'animes' ? 'title' : 'name';
+    const name = model === 'animes' || model === 'posts' ? 'title' : 'name';
     DB.find({ [name]: { $regex: req.params.search, $options: 'i' } }, (err, items) => {
       res.send(items.map(item => item[name]));
     });
