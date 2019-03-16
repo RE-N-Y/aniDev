@@ -17,6 +17,7 @@ import Anime from './pages/Anime';
 import Character from './pages/Character';
 import Forgot from './pages/Forgot';
 import Reset from './pages/Reset';
+import Home from './pages/Home';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, {}, composeEnhancers(applyMiddleware(reduxThunk)));
@@ -25,6 +26,7 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <App>
+        <Route path="/" exact component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
         <Route path="/profile" component={Profile} />

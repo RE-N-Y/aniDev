@@ -35,6 +35,7 @@ require('./routes/userRoutes')(app);
 require('./routes/characterRoutes')(app);
 require('./routes/animeRoutes')(app);
 require('./routes/studioRoutes')(app);
+require('./routes/settingRoutes')(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
